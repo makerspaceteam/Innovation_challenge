@@ -1,0 +1,532 @@
+.day-quest-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation */
+.navbar {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0051ba;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.logo:hover {
+  color: #003d7a;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #0051ba;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background: #f9fafb;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.breadcrumb a {
+  color: #0051ba;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+  color: #003d7a;
+  text-decoration: underline;
+}
+
+/* Quest Container */
+.quest-container {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+  padding: 40px 20px;
+  flex: 1;
+}
+
+.quest-main {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Quest Header */
+.quest-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.quest-phase {
+  display: inline-block;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.quest-header h1 {
+  font-size: 2.5rem;
+  color: #001a4d;
+  margin-bottom: 10px;
+}
+
+.quest-day {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Quest Description */
+.quest-description {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 20px;
+  align-items: start;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.mascot-large {
+  font-size: 80px;
+  text-align: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.quest-description p {
+  color: #333;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+/* Quest Section */
+.quest-section {
+  margin-bottom: 30px;
+}
+
+.quest-section h2 {
+  font-size: 1.5rem;
+  color: #001a4d;
+  margin-bottom: 15px;
+}
+
+.instructions-list {
+  margin-left: 20px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.instructions-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* Sentence Frame */
+.sentence-frame {
+  background: #ede9fe;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border-left: 4px solid #a78bfa;
+}
+
+.frame-title {
+  color: #001a4d;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.frame-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #333;
+  font-style: italic;
+  border: 2px dashed #a78bfa;
+  line-height: 1.6;
+}
+
+/* Tip Box */
+.tip-box {
+  background: #fffaeb;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  gap: 15px;
+  align-items: start;
+  margin-bottom: 30px;
+  border-left: 4px solid #fbbf24;
+}
+
+.tip-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.tip-box p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Response Form */
+.response-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.response-textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.response-textarea:focus {
+  outline: none;
+  border-color: #0051ba;
+  box-shadow: 0 0 0 3px rgba(0, 81, 186, 0.1);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.form-buttons .btn {
+  flex: 1;
+}
+
+/* Success Message */
+.success-message {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #e0f7e3 100%);
+  border-radius: 12px;
+}
+
+.success-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.success-message h3 {
+  font-size: 1.8rem;
+  color: #001a4d;
+  margin-bottom: 10px;
+}
+
+.success-message p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.reward-info {
+  margin: 20px 0;
+}
+
+.reward-badge {
+  display: inline-block;
+  background: #fbbf24;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.success-buttons {
+  margin-top: 20px;
+}
+
+.success-buttons .btn {
+  display: inline-block;
+}
+
+/* Sidebar */
+.quest-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-card h3 {
+  color: #001a4d;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* Progress Card */
+.progress-card {
+  text-align: center;
+}
+
+.progress-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0051ba;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.progress-bar {
+  background: #e5e7eb;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #4f46e5 0%, #0051ba 100%);
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Phase Card */
+.phase-card p {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 8px 0;
+}
+
+.phase-badge {
+  display: inline-block;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.phase-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Achievement Card */
+.achievement-card {
+  text-align: center;
+  background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%);
+  border: 2px solid #a78bfa;
+}
+
+.achievement-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin: 10px 0;
+}
+
+.achievement-card p {
+  color: #0051ba;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.achievement-card small {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Tips Card */
+.tips-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-card li {
+  padding: 8px 0;
+  color: #666;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tips-card li:last-child {
+  border-bottom: none;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #0051ba 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
+}
+
+.btn-secondary {
+  background: white;
+  color: #0051ba;
+  border: 2px solid #0051ba;
+}
+
+.btn-secondary:hover {
+  background: #f0f7ff;
+}
+
+.btn-lg {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .quest-container {
+    grid-template-columns: 1fr;
+  }
+
+  .quest-sidebar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    display: grid;
+  }
+}
+
+@media (max-width: 768px) {
+  .quest-main {
+    padding: 25px;
+  }
+
+  .quest-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .quest-description {
+    grid-template-columns: 1fr;
+  }
+
+  .mascot-large {
+    font-size: 50px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .form-buttons .btn {
+    width: 100%;
+  }
+
+  .quest-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+}
