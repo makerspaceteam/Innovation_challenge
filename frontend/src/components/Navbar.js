@@ -190,7 +190,7 @@ function Navbar() {
             {step === 1 && (
               <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
                 <div className="field">
-                  <label>Gmail address</label>
+                  <label>Student Email</label>
                   <div className="input-wrap">
                     <span className="input-icon">✉️</span>
                     <input

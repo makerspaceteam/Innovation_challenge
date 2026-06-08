@@ -103,7 +103,7 @@
 }
 
 .hero-text h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #001a4d;
   margin-bottom: 10px;
   line-height: 1.2;
@@ -118,7 +118,7 @@
 
 .hero-description {
   font-size: 1.1rem;
-  color: #555;
+  color: #100f0f;
   line-height: 1.6;
   margin-bottom: 30px;
 }
@@ -126,12 +126,12 @@
 .hero-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 5px;
 }
 
 /* Buttons */
 .btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 0.75rem;
   border: none;
   border-radius: 8px;
   font-size: 1rem;

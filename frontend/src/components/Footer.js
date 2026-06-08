@@ -27,7 +27,7 @@ function Footer({ message, feedbackUrl }) {
           <h4>Feedback</h4>
           <p>Help us improve the quest experience.</p>
           <a
-            href={feedbackUrl || 'https://forms.google.com'}
+            href={feedbackUrl || 'https://docs.google.com/forms/d/e/1FAIpQLSdwigkUleCjM4scBhwVxmbUd8GrAW7Ry4JCiOMcXq0QG2ZP2g/viewform?usp=header'}
             target="_blank"
             rel="noopener noreferrer"
             className="feedback-btn"
@@ -39,7 +39,7 @@ function Footer({ message, feedbackUrl }) {
       </div>
 
       <div className="footer-bottom">
-        Made with ❤️ by Makerspace Team · CADT
+        Made with by ❤️ Makerspace Team · CADT
       </div>
     </footer>
   );
