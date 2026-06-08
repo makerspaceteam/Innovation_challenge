@@ -1,47 +1,275 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../supabase');
+const {
+  buildSchedule,
+  getPhaseSchedule,
+  isDayUnlocked,
+  toDateString,
+  getDayDate
+} = require('./ScheduleHelper.js');
 
-// Quest data stays local
+// ─── Quest content ────────────────────────────────────────────────────────────
 const questsData = {
-  1:  { day: 1,  title: 'Welcome to the Quest',  phase: 'Discover', description: 'Welcome to the Quest Please complete this form after finishing the Day 1 AI-guided lesson. Today’s task is about understanding the design thinking journey and the Double Diamond. You will submit: your concept check responses your starting reflection your quest pledge Start your journey of exploration.' },
-  2:  { day: 2,  title: 'Observation Skills',     phase: 'Discover', description: 'Observe the world around you.' },
-  3:  { day: 3,  title: 'Ask Questions',          phase: 'Discover', description: 'Learn to ask meaningful questions.' },
-  4:  { day: 4,  title: 'Listen Actively',        phase: 'Discover', description: 'Practice active listening.' },
-  5:  { day: 5,  title: 'Synthesis',              phase: 'Discover', description: 'Bring your observations together.' },
-  6:  { day: 6,  title: 'Problem Framing',        phase: 'Define',   description: 'Frame the problem statement.' },
-  7:  { day: 7,  title: 'Need Identification',    phase: 'Define',   description: 'Identify user needs.' },
-  8:  { day: 8,  title: 'Point of View Power',    phase: 'Define',   description: 'Write a point of view statement.' },
-  9:  { day: 9,  title: 'Insight Analysis',       phase: 'Define',   description: 'Analyze your key insights.' },
-  10: { day: 10, title: 'Define Summary',         phase: 'Define',   description: 'Summarize your problem definition.' },
-  11: { day: 11, title: 'Brainstorming',          phase: 'Develop',  description: 'Generate creative ideas.' },
-  12: { day: 12, title: 'Ideation Techniques',    phase: 'Develop',  description: 'Learn ideation methods.' },
-  13: { day: 13, title: 'Solution Sketching',     phase: 'Develop',  description: 'Sketch your ideas.' },
-  14: { day: 14, title: 'Prototype Planning',     phase: 'Develop',  description: 'Plan your prototype.' },
-  15: { day: 15, title: 'Develop Review',         phase: 'Develop',  description: 'Review your ideas.' },
-  16: { day: 16, title: 'Build Your Solution',    phase: 'Deliver',  description: 'Start building.' },
-  17: { day: 17, title: 'Testing Phase',          phase: 'Deliver',  description: 'Test your solution.' },
-  18: { day: 18, title: 'Gather Feedback',        phase: 'Deliver',  description: 'Collect user feedback.' },
-  19: { day: 19, title: 'Iterate & Improve',      phase: 'Deliver',  description: 'Make improvements.' },
-  20: { day: 20, title: 'Launch & Share',         phase: 'Deliver',  description: 'Share your solution.' }
+  1:  { 
+    day: 1,  
+    title: 'Welcome to the Quest',   
+    phase: 'Discover', 
+    description: `Hi {user_name} — welcome to the Quest.
+
+      Today is your starting point. We're not here to be perfect. We're here to begin with curiosity.
+
+      Today, your AI guide will help you:
+
+      • Explore the Quest Map
+      • Understand the Double Diamond
+      • Reflect on what excites or worries you about your future
+      • Check in with where you are now
+      • Create your Day 1 outputs
+
+      Today's Outputs:
+      • Personal learner profile
+      • Starting reflection
+      • Quest pledge
+
+      Daily Unlock Password:
+      -> Spark Curiosity
+      `,
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNFBWV1I4MzVZODYzTVdSQ1NGUTU0TkpKSC4u' 
+  },
+  2:  { 
+    day: 2,  
+    title: 'Observation Skills',     
+    phase: 'Discover', 
+    description: `Hi {user_name} — welcome to Day 2.
+
+      Today we’ll rethink what innovation really means.
+
+      Innovation is not only about invention, technology, or building something flashy. It often begins with a real frustration, an unmet need, or a problem people face every day.
+
+      In this session, we’ll look at different kinds of innovation, explore simple examples, and help you identify one challenge in student life that could be improved.
+
+      By the end, you’ll write your own “innovation is…” reflection and identify one everyday challenge worth noticing.
+
+      Daily unlock password:
+      -> Begin Journeys`,
+    gpt_link: '',
+    submit_link: 'https://forms.office.com/r/PmMQRLDAwX' 
+  },
+  3:  { 
+    day: 3,  
+    title: 'Ask Questions',          
+    phase: 'Discover', 
+    description: `Hi {user_name} — welcome to Day 3.
+
+      Today we’ll practice one of the most important design skills: observation.
+
+      Designers do not just wait for problems to be explained to them. They learn to notice what people do, where people struggle, what they avoid, and how they adapt when something doesn’t work well.
+
+      In this session, you’ll learn how to observe everyday life with fresh eyes. Then you’ll do a short observation activity and capture 5 observation notes and 1 surprising insight.
+
+      Today is not about fixing anything yet. It is about noticing carefully.
+
+      Daily unlock password:
+      -> Practice Empathy
+      `,
+    gpt_link: '',
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQUpIRVFJM0FYMVJLSEUwRjZFUEM1WExXUC4u' 
+  },
+  4:  { 
+    day: 4,  
+    title: 'Listen Actively',        
+    phase: 'Discover', 
+    description: 'Practice active listening.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  5:  { 
+    day: 5,  
+    title: 'Synthesis',              
+    phase: 'Discover', 
+    description: 'Bring your observations together.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  6:  { 
+    day: 6,  
+    title: 'Problem Framing',        
+    phase: 'Define',   
+    description: 'Frame the problem statement.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  7:  { 
+    day: 7,  
+    title: 'Need Identification',    
+    phase: 'Define',   
+    description: 'Identify user needs.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  8:  { 
+    day: 8,  
+    title: 'Point of View Power',    
+    phase: 'Define',   
+    description: 'Write a point of view statement.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  9:  { 
+    day: 9,  
+    title: 'Insight Analysis',       
+    phase: 'Define',   
+    description: 'Analyze your key insights.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  10: { 
+    day: 10, 
+    title: 'Define Summary',         
+    phase: 'Define',   
+    description: 'Summarize your problem definition.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  11: { 
+    day: 11, 
+    title: 'Brainstorming',          
+    phase: 'Develop',  
+    description: 'Generate creative ideas.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  12: { 
+    day: 12, 
+    title: 'Ideation Techniques',    
+    phase: 'Develop',  
+    description: 'Learn ideation methods.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  13: { 
+    day: 13, 
+    title: 'Solution Sketching',     
+    phase: 'Develop',  
+    description: 'Sketch your ideas.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  14: { 
+    day: 14, 
+    title: 'Prototype Planning',     
+    phase: 'Develop',  
+    description: 'Plan your prototype.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  15: { 
+    day: 15, 
+    title: 'Develop Review',         
+    phase: 'Develop',  
+    description: 'Review your ideas.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  16: { 
+    day: 16, 
+    title: 'Build Your Solution',    
+    phase: 'Deliver',  
+    description: 'Start building.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  17: { 
+    day: 17, 
+    title: 'Testing Phase',          
+    phase: 'Deliver',  
+    description: 'Test your solution.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  18: { 
+    day: 18, 
+    title: 'Gather Feedback',        
+    phase: 'Deliver',  
+    description: 'Collect user feedback.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  19: { 
+    day: 19, 
+    title: 'Iterate & Improve',      
+    phase: 'Deliver',  
+    description: 'Make improvements.',
+    gpt_link: '',
+    submit_link: '' 
+  },
+  20: { 
+    day: 20, 
+    title: 'Launch & Share',         
+    phase: 'Deliver',  
+    description: 'Share your solution.',
+    gpt_link: '',
+    submit_link: '' 
+  }
 };
 
-// Get all quests
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+// Attach schedule info (date, dateLabel, unlocked) to a quest object
+function withSchedule(quest) {
+  const schedule = buildSchedule();
+  const s = schedule[quest.day - 1];
+  return { ...quest, ...s };
+}
+
+// ─── Routes ───────────────────────────────────────────────────────────────────
+
+// GET /api/quests — all quests with schedule info
 router.get('/', (req, res) => {
-  res.json({ success: true, data: Object.values(questsData), total: Object.keys(questsData).length });
+  const schedule = buildSchedule();
+  const data = Object.values(questsData).map((q) => ({
+    ...q,
+    ...schedule[q.day - 1]
+  }));
+  res.json({ success: true, data, total: data.length });
 });
 
-// Get quest by day
+// GET /api/quests/schedule — just the schedule (useful for frontend date display)
+router.get('/schedule', (req, res) => {
+  const schedule = buildSchedule();
+  const phases = [
+    { name: 'Discover', startDay: 1,  endDay: 5  },
+    { name: 'Define',   startDay: 6,  endDay: 10 },
+    { name: 'Develop',  startDay: 11, endDay: 15 },
+    { name: 'Deliver',  startDay: 16, endDay: 20 },
+  ];
+  res.json({
+    success: true,
+    data: {
+      schedule,
+      phases: phases.map((p) => ({
+        ...p,
+        dateRange: getPhaseSchedule(p.startDay, p.endDay)
+      }))
+    }
+  });
+});
+
+// GET /api/quests/day/:dayNumber
 router.get('/day/:dayNumber', (req, res) => {
   const { dayNumber } = req.params;
   const quest = questsData[dayNumber];
 
-  if (!quest) return res.status(404).json({ success: false, message: `Quest for day ${dayNumber} not found` });
+  if (!quest) {
+    return res.status(404).json({ success: false, message: `Quest for day ${dayNumber} not found` });
+  }
 
   res.json({
     success: true,
     data: {
-      ...quest,
+      ...withSchedule(quest),
       instructions: [
         'Review your previous notes and observations.',
         'Consider the current phase objective.',
@@ -53,10 +281,13 @@ router.get('/day/:dayNumber', (req, res) => {
   });
 });
 
-// Get quest by phase
+// GET /api/quests/phase/:phase
 router.get('/phase/:phase', (req, res) => {
   const { phase } = req.params;
-  const phaseQuests = Object.values(questsData).filter(q => q.phase === phase);
+  const schedule = buildSchedule();
+  const phaseQuests = Object.values(questsData)
+    .filter((q) => q.phase === phase)
+    .map((q) => ({ ...q, ...schedule[q.day - 1] }));
 
   if (phaseQuests.length === 0) {
     return res.status(404).json({ success: false, message: `No quests found for phase: ${phase}` });
@@ -65,12 +296,14 @@ router.get('/phase/:phase', (req, res) => {
   res.json({ success: true, data: phaseQuests, total: phaseQuests.length });
 });
 
-// Get quest + user progress for a specific day
+// GET /api/quests/day/:dayNumber/user/:userId
 router.get('/day/:dayNumber/user/:userId', async (req, res) => {
   const { dayNumber, userId } = req.params;
   const quest = questsData[dayNumber];
 
-  if (!quest) return res.status(404).json({ success: false, message: `Quest for day ${dayNumber} not found` });
+  if (!quest) {
+    return res.status(404).json({ success: false, message: `Quest for day ${dayNumber} not found` });
+  }
 
   const { data: progress } = await supabase
     .from('user_quest_progress')
@@ -82,14 +315,14 @@ router.get('/day/:dayNumber/user/:userId', async (req, res) => {
   res.json({
     success: true,
     data: {
-      ...quest,
+      ...withSchedule(quest),
       completed: !!progress,
       completed_at: progress?.completed_at || null
     }
   });
 });
 
-// Get all quests with user completion status
+// GET /api/quests/user/:userId — all quests with user completion + schedule
 router.get('/user/:userId', async (req, res) => {
   const { userId } = req.params;
 
@@ -100,10 +333,12 @@ router.get('/user/:userId', async (req, res) => {
 
   if (error) return res.status(500).json({ success: false, message: error.message });
 
-  const completedMap = new Map(progress.map(p => [p.day_number, p.completed_at]));
+  const completedMap = new Map(progress.map((p) => [p.day_number, p.completed_at]));
+  const schedule = buildSchedule();
 
-  const quests = Object.values(questsData).map(quest => ({
+  const quests = Object.values(questsData).map((quest) => ({
     ...quest,
+    ...schedule[quest.day - 1],              // date, dateLabel, unlocked
     completed: completedMap.has(quest.day),
     completed_at: completedMap.get(quest.day) || null
   }));
@@ -111,7 +346,7 @@ router.get('/user/:userId', async (req, res) => {
   res.json({ success: true, data: quests, total_completed: progress.length });
 });
 
-// Mark a quest day as completed
+// POST /api/quests/complete
 router.post('/complete', async (req, res) => {
   const { user_id, day_number } = req.body;
 
@@ -121,6 +356,17 @@ router.post('/complete', async (req, res) => {
 
   if (!questsData[day_number]) {
     return res.status(404).json({ success: false, message: `Quest for day ${day_number} not found` });
+  }
+
+  // Prevent completing a day that hasn't unlocked yet
+  if (!isDayUnlocked(day_number)) {
+    const dateLabel = getDayDate(day_number).toLocaleDateString('en-US', {
+      weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC'
+    });
+    return res.status(403).json({
+      success: false,
+      message: `Day ${day_number} is not available until ${dateLabel}`
+    });
   }
 
   const { data, error } = await supabase
@@ -134,7 +380,7 @@ router.post('/complete', async (req, res) => {
   res.status(201).json({
     success: true,
     message: `Day ${day_number} completed!`,
-    data: { ...questsData[day_number], completed_at: data.completed_at }
+    data: { ...withSchedule(questsData[day_number]), completed_at: data.completed_at }
   });
 });
 

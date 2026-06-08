@@ -1,36 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../supabase');
+const authenticate = require('../middleware/auth');
 
-// ─── GET all achievements ───────────────────────────────────────────
+// ✅ GET /api/badges — all achievements
 router.get('/', async (req, res) => {
   const { data, error } = await supabase
     .from('achievements')
     .select('*')
-    .order('achievement_id', { ascending: true });
+    .order('requirement_value', { ascending: true });
 
   if (error) return res.status(500).json({ success: false, message: error.message });
-
-  res.json({ success: true, data, total: data.length });
-});
-
-// ─── GET achievement by ID ──────────────────────────────────────────
-router.get('/:achievementId', async (req, res) => {
-  const { achievementId } = req.params;
-
-  const { data, error } = await supabase
-    .from('achievements')
-    .select('*')
-    .eq('achievement_id', achievementId)
-    .single();
-
-  if (error) return res.status(404).json({ success: false, message: 'Achievement not found' });
 
   res.json({ success: true, data });
 });
 
-// ─── GET user's earned achievements ────────────────────────────────
-router.get('/user/:userId', async (req, res) => {
+// ✅ GET /api/badges/day/:dayNumber — badge for a specific day
+router.get('/day/:dayNumber', async (req, res) => {
+  const { dayNumber } = req.params;
+
+  const { data, error } = await supabase
+    .from('achievements')
+    .select('*')
+    .eq('requirement_type', 'day')
+    .eq('requirement_value', parseInt(dayNumber))
+    .single();
+
+  if (error || !data) {
+    return res.json({ success: true, data: null }); // no badge for this day
+  }
+
+  res.json({ success: true, data });
+});
+
+// ✅ GET /api/badges/user/:userId — all badges earned by user
+router.get('/user/:userId', authenticate, async (req, res) => {
   const { userId } = req.params;
 
   const { data, error } = await supabase
@@ -47,146 +51,91 @@ router.get('/user/:userId', async (req, res) => {
         requirement_value
       )
     `)
-    .eq('user_id', userId);
+    .eq('user_id', parseInt(userId))
+    .order('earned_at', { ascending: false });
 
   if (error) return res.status(500).json({ success: false, message: error.message });
 
-  const userAchievements = data.map(row => ({
-    ...row.achievements,
-    earned_at: row.earned_at
-  }));
-
-  res.json({ success: true, data: userAchievements, total: userAchievements.length });
+  res.json({ success: true, data });
 });
 
-// ─── GET user achievement progress ─────────────────────────────────
-router.get('/user/:userId/progress', async (req, res) => {
-  const { userId } = req.params;
+// ✅ POST /api/badges/award — award badge to user when they complete a day
+// Call this automatically after completeDay succeeds
+router.post('/award', authenticate, async (req, res) => {
+  const { user_id, day_number } = req.body;
 
-  // Get all achievements and user's earned ones in parallel
-  const [allRes, earnedRes] = await Promise.all([
-    supabase.from('achievements').select('*').order('achievement_id'),
-    supabase.from('user_achievements').select('achievement_id, earned_at').eq('user_id', userId)
-  ]);
-
-  if (allRes.error) return res.status(500).json({ success: false, message: allRes.error.message });
-  if (earnedRes.error) return res.status(500).json({ success: false, message: earnedRes.error.message });
-
-  const earnedMap = new Map(earnedRes.data.map(row => [row.achievement_id, row.earned_at]));
-
-  const progress = allRes.data.map(achievement => ({
-    ...achievement,
-    earned: earnedMap.has(achievement.achievement_id),
-    earned_at: earnedMap.get(achievement.achievement_id) || null
-  }));
-
-  res.json({
-    success: true,
-    data: progress,
-    total_earned: earnedRes.data.length,
-    total_available: allRes.data.length
-  });
-});
-
-// ─── AWARD achievement to user ──────────────────────────────────────
-router.post('/award', async (req, res) => {
-  const { user_id, achievement_id } = req.body;
-
-  if (!user_id || !achievement_id) {
-    return res.status(400).json({ success: false, message: 'user_id and achievement_id are required' });
+  if (!user_id || !day_number) {
+    return res.status(400).json({ success: false, message: 'user_id and day_number are required' });
   }
 
-  // Check user exists
-  const { data: user, error: userError } = await supabase
-    .from('users')
-    .select('user_id, full_name')
-    .eq('user_id', user_id)
-    .single();
-
-  if (userError) return res.status(404).json({ success: false, message: 'User not found' });
-
-  // Check achievement exists
-  const { data: achievement, error: achError } = await supabase
+  // Find badge for this day
+  const { data: achievement } = await supabase
     .from('achievements')
     .select('*')
-    .eq('achievement_id', achievement_id)
+    .eq('requirement_type', 'day')
+    .eq('requirement_value', parseInt(day_number))
     .single();
 
-  if (achError) return res.status(404).json({ success: false, message: 'Achievement not found' });
+  // No badge for this day — that's fine
+  if (!achievement) {
+    return res.json({ success: true, awarded: false, message: 'No badge for this day' });
+  }
 
-  // Insert into user_achievements
+  // Award badge (ignore if already earned — UNIQUE constraint)
   const { data, error } = await supabase
     .from('user_achievements')
-    .insert({ user_id, achievement_id })
+    .upsert(
+      { user_id: parseInt(user_id), achievement_id: achievement.achievement_id },
+      { onConflict: 'user_id,achievement_id', ignoreDuplicates: true }
+    )
     .select()
     .single();
 
-  if (error) {
-    if (error.code === '23505') {
-      return res.status(400).json({ success: false, message: 'User already has this achievement' });
-    }
-    return res.status(500).json({ success: false, message: error.message });
-  }
-
-  res.status(201).json({
-    success: true,
-    message: 'Achievement awarded successfully',
-    data: {
-      user: { user_id: user.user_id, full_name: user.full_name },
-      achievement,
-      earned_at: data.earned_at
-    }
-  });
-});
-
-// ─── CHECK eligibility based on requirement_type ────────────────────
-router.post('/check-eligibility', async (req, res) => {
-  const { user_id } = req.body;
-
-  if (!user_id) {
-    return res.status(400).json({ success: false, message: 'user_id is required' });
-  }
-
-  // Get all achievements and user's earned ones in parallel
-  const [allRes, earnedRes] = await Promise.all([
-    supabase.from('achievements').select('*'),
-    supabase.from('user_achievements').select('achievement_id').eq('user_id', user_id)
-  ]);
-
-  if (allRes.error) return res.status(500).json({ success: false, message: allRes.error.message });
-  if (earnedRes.error) return res.status(500).json({ success: false, message: earnedRes.error.message });
-
-  const earnedIds = earnedRes.data.map(row => row.achievement_id);
-  const newAchievements = allRes.data.filter(a => !earnedIds.includes(a.achievement_id));
+  if (error) return res.status(500).json({ success: false, message: error.message });
 
   res.json({
     success: true,
-    data: {
-      total_achievements: allRes.data.length,
-      already_earned: earnedIds.length,
-      not_yet_earned: newAchievements,
-      next_achievement: newAchievements[0] || null
-    }
+    awarded: true,
+    message: `Badge "${achievement.title}" earned!`,
+    data: { ...data, achievement }
   });
 });
 
-// ─── REVOKE achievement from user ──────────────────────────────────
-router.delete('/revoke', async (req, res) => {
-  const { user_id, achievement_id } = req.body;
+// ✅ GET /api/badges/user/:userId/progress — all badges with earned status
+router.get('/user/:userId/progress', authenticate, async (req, res) => {
+  const { userId } = req.params;
 
-  if (!user_id || !achievement_id) {
-    return res.status(400).json({ success: false, message: 'user_id and achievement_id are required' });
-  }
+  // Get all achievements
+  const { data: allAchievements, error: achError } = await supabase
+    .from('achievements')
+    .select('*')
+    .order('requirement_value', { ascending: true });
 
-  const { error } = await supabase
+  if (achError) return res.status(500).json({ success: false, message: achError.message });
+
+  // Get user's earned achievements
+  const { data: earned, error: earnedError } = await supabase
     .from('user_achievements')
-    .delete()
-    .eq('user_id', user_id)
-    .eq('achievement_id', achievement_id);
+    .select('achievement_id, earned_at')
+    .eq('user_id', parseInt(userId));
 
-  if (error) return res.status(500).json({ success: false, message: error.message });
+  if (earnedError) return res.status(500).json({ success: false, message: earnedError.message });
 
-  res.json({ success: true, message: 'Achievement revoked successfully' });
+  const earnedMap = new Map(earned.map(e => [e.achievement_id, e.earned_at]));
+
+  // Merge — mark each badge as earned or locked
+  const data = allAchievements.map(a => ({
+    ...a,
+    earned: earnedMap.has(a.achievement_id),
+    earned_at: earnedMap.get(a.achievement_id) || null
+  }));
+
+  res.json({
+    success: true,
+    data,
+    total: allAchievements.length,
+    earned_count: earned.length
+  });
 });
 
 module.exports = router;

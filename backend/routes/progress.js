@@ -157,6 +157,27 @@ router.post('/:userId/complete-day', async (req, res) => {
       progress_percentage: Math.round((completedDays.length / 20) * 100)
     }
   });
+  // In your progress route or users route, after marking day complete,
+  // automatically award the badge — add this inside completeDay handler:
+
+  // After successful upsert of user_quest_progress...
+
+  // Auto-award badge if one exists for this day
+  const { data: achievement } = await supabase
+    .from('achievements')
+    .select('*')
+    .eq('requirement_type', 'day')
+    .eq('requirement_value', parseInt(day_number))
+    .single();
+
+  if (achievement) {
+    await supabase
+      .from('user_achievements')
+      .upsert(
+        { user_id: parseInt(user_id), achievement_id: achievement.achievement_id },
+        { onConflict: 'user_id,achievement_id', ignoreDuplicates: true }
+      );
+  }
 });
 
 module.exports = router;

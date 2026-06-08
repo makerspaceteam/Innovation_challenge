@@ -1,17 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getQuestWithUserStatus, completeDay, getUser } from '../services/api';
+import { getQuestWithUserStatus, completeDay, getUser, getBadgeForDay } from '../services/api';
+import { useUserProgress } from '../contexts/UserProgressContext';
 import './DayQuestPage.css';
+
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import ProgressBar from '../components/ProgressBar';
 
 function DayQuestPage() {
   const { dayNumber } = useParams();
   const [questData, setQuestData] = useState(null);
   const [questSubmitted, setQuestSubmitted] = useState(false);
-  const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [badge, setBadge] = useState(null);         // badge for this day
+  const [badgeEarned, setBadgeEarned] = useState(false); // whether user already earned it
+  const [confirmed, setConfirmed] = useState(false);
+  const quest = questData || {};
+
   const navigate = useNavigate();
-  const user = getUser();
+  const [user] = useState(getUser);
+  const { refreshStats } = useUserProgress();
+  const description = questData?.description?.replace('{user_name}', user?.user_name || 'Maker');
+
+  const fetchQuest = useCallback(async () => {
+    if (!user?.user_id) return;
+    setLoading(true);
+    try {
+      const [questRes, badgeRes] = await Promise.all([
+        getQuestWithUserStatus(dayNumber, user.user_id),
+        getBadgeForDay(dayNumber)
+      ]);
+
+      if (questRes.success) {
+        setQuestData(questRes.data);
+        setQuestSubmitted(questRes.data.completed);
+        // If quest already completed, badge is already earned
+        if (questRes.data.completed) setBadgeEarned(true);
+      }
+
+      if (badgeRes.success && badgeRes.data) {
+        setBadge(badgeRes.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch quest:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [dayNumber, user?.user_id]);
 
   useEffect(() => {
     if (!user) {
@@ -19,29 +56,36 @@ function DayQuestPage() {
       return;
     }
     fetchQuest();
-  }, [dayNumber]);
+  }, [fetchQuest, navigate, user]);
 
-  const fetchQuest = async () => {
-    setLoading(true);
-    const res = await getQuestWithUserStatus(dayNumber, user.user_id);
-    if (res.success) {
-      setQuestData(res.data);
-      setQuestSubmitted(res.data.completed);
+  const handleSubmit = async () => {
+    if (!confirmed) {
+      alert('Please confirm that you have submitted your work on the form');
+      return;
     }
-    setLoading(false);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!response.trim()) return;
 
     setSubmitting(true);
-    const res = await completeDay(user.user_id, parseInt(dayNumber));
 
-    if (res.success) {
-      setQuestSubmitted(true);
+    try {
+      const res = await completeDay(user.user_id, parseInt(dayNumber));
+
+      if (res.success) {
+        setQuestSubmitted(true);
+        setBadgeEarned(true); // mark badge as just earned
+        await refreshStats(user.user_id);
+
+        setTimeout(() => {
+          navigate('/journey', { replace: true });
+        }, 800);
+      } else {
+        alert(`Error: ${res.message}`);
+      }
+    } catch (err) {
+      console.error('Submit error:', err);
+      alert('Something went wrong. Check console.');
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
 
   if (loading) return <div className="loading">Loading quest...</div>;
@@ -49,26 +93,8 @@ function DayQuestPage() {
 
   return (
     <div className="day-quest-page">
-      {/* Navigation */}
-      <nav className="navbar">
-        <div className="container nav-container">
-          <Link to="/" className="logo">
-            <span className="logo-icon">⭐</span>
-            <span>Makers Innovation Quest</span>
-          </Link>
-          <ul className="nav-links">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/journey">Journey</Link></li>
-            <li>
-              <button className="btn btn-primary">
-                Hi, {user?.user_name?.split(' ')[0]}!
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <Navbar />
 
-      {/* Breadcrumb */}
       <div className="breadcrumb">
         <div className="container">
           <Link to="/">Home</Link> {' > '}
@@ -80,20 +106,50 @@ function DayQuestPage() {
 
       <div className="container quest-container">
         <div className="quest-main">
-          {/* Quest Header */}
           <div className="quest-header">
-            <div className="quest-phase">{questData.phase}</div>
+            <div className="quest-phase" data-phase={questData.phase}>{questData.phase}</div>
             <h1>{questData.title}</h1>
             <p className="quest-day">Day {dayNumber} of 20</p>
           </div>
 
-          {/* Quest Description */}
-          <div className="quest-description">
-            <div className="mascot-large">🦈</div>
-            <p>{questData.description}</p>
+          <div className='div-des'>
+            <div className="mascot-large">
+              <img
+                src="/images/sharks/shark_teach.png"
+                alt="Makers Quest Shark Mascot"
+                className="mascot-image"
+              />
+            </div>
+            <p className="quest-description">
+              {description}
+            </p>
           </div>
+          {questData?.gpt_link && (
+              <div className="ai-guide-card">
+                <div className="ai-guide-icon">
+                  🤖
+                </div>
 
-          {/* Instructions */}
+                <div className="ai-guide-content">
+                  <h3>Open your AIFFL guide here:</h3>
+
+                  <p>
+                    Your AI guide will help you complete today's quest,
+                    reflect on your journey, and prepare your submission.
+                  </p>
+
+                  <a
+                    href={questData.gpt_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ai-guide-btn"
+                  >
+                    🚀 Meet Your AI Guide
+                  </a>
+                </div>
+              </div>
+            )}
+
           {questData.instructions && (
             <div className="quest-section">
               <h2>How to Complete This Quest</h2>
@@ -105,7 +161,6 @@ function DayQuestPage() {
             </div>
           )}
 
-          {/* Sentence Frame */}
           {questData.sentenceFrame && (
             <div className="sentence-frame">
               <p className="frame-title">Use this sentence frame:</p>
@@ -113,7 +168,6 @@ function DayQuestPage() {
             </div>
           )}
 
-          {/* Tip */}
           {questData.tips && (
             <div className="tip-box">
               <span className="tip-icon">💡</span>
@@ -121,65 +175,122 @@ function DayQuestPage() {
             </div>
           )}
 
-          {/* Response Form */}
           <div className="quest-section">
-            <h2>Your Response</h2>
+            <h2>Your Today's Quest</h2>
+            
             {!questSubmitted ? (
-              <form className="response-form" onSubmit={handleSubmit}>
-                <textarea
-                  value={response}
-                  onChange={(e) => setResponse(e.target.value)}
-                  placeholder="Write your response here..."
-                  rows="6"
-                  className="response-textarea"
-                />
-                <div className="form-buttons">
-                  <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
-                    {submitting ? 'Submitting...' : 'Submit Response'}
-                  </button>
-                  <Link to="/journey" className="btn btn-secondary">Cancel</Link>
+              <div className="response-form">
+                {/* Submission Link Button - from Backend */}
+                {quest?.submit_link ? (
+                  <div className="submit-card">
+                    <div className="submit-card-icon">
+                      📝
+                    </div>
+
+                    <div className="submit-card-content">
+                      <h3>Submit Your Work</h3>
+                      <p>
+                        Complete the activity and upload your response through the submission form.
+                      </p>
+
+                      <a
+                        href={quest.submit_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="submit-form-btn"
+                      >
+                        Open Submission Form →
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="alert alert-info">
+                    <p>Submission link is not available yet for this day.</p>
+                  </div>
+                )}
+
+                {/* Confirmation Checkbox */}
+                <div className="confirmation-section mb-4">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={confirmed}
+                      onChange={(e) => setConfirmed(e.target.checked)}
+                    />
+                    <span>
+                      I have completed and submitted my work on the form above
+                    </span>
+                  </label>
                 </div>
-              </form>
+
+                <div className="form-buttons">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    disabled={!confirmed || submitting || !quest?.submit_link}
+                    onClick={handleSubmit}
+                  >
+                    {submitting ? 'Marking as Completed...' : 'Mark Day as Completed'}
+                  </button>
+                  
+                  <Link to="/journey" className="btn btn-secondary">
+                    Cancel
+                  </Link>
+                </div>
+              </div>
             ) : (
               <div className="success-message">
                 <div className="success-icon">✨</div>
-                <h3>Great job, {user?.full_name?.split(' ')[0]}!</h3>
+                <h3>Great job, {user?.user_name?.split(' ')[0] || 'Student'}!</h3>
                 <p>You've completed Day {dayNumber}!</p>
                 <div className="reward-info">
                   <span className="reward-badge">+10 Points</span>
                 </div>
-                <Link to="/journey" className="btn btn-primary">Continue Journey</Link>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => navigate('/journey', { replace: true })}
+                >
+                  Continue Journey
+                </button>
               </div>
             )}
           </div>
         </div>
 
-        {/* Sidebar */}
         <div className="quest-sidebar">
           <div className="sidebar-card progress-card">
             <h3>Your Progress</h3>
-            <div className="progress-stat">
-              <span className="stat-number">{dayNumber}</span>
-              <span className="stat-label">Current Day</span>
-            </div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${(dayNumber / 20) * 100}%` }}></div>
-            </div>
-            <p className="progress-label">{dayNumber} / 20</p>
+            <ProgressBar completed={parseInt(dayNumber)} total={20} showLabel={false} />
           </div>
 
           <div className="sidebar-card phase-card">
             <h3>Current Phase</h3>
-            <div className="phase-badge">{questData.phase}</div>
+            <div className="phase-badge" data-phase={questData.phase}>{questData.phase}</div>
           </div>
+
+          {/* Badge Card — only shows if this day has a badge */}
+          {badge && (
+            <div className={`sidebar-card badge-card ${badgeEarned ? 'badge-earned' : 'badge-locked'}`}>
+              <h3>Day Badge</h3>
+              <div className="badge-icon-wrap">
+                {badge.icon_url
+                  ? <img src={badge.icon_url.replace('/upload/', '/upload/w_200,h_200,c_fit/')} alt={badge.title} className="badge-icon-img" />
+                  : <span className="badge-icon-emoji">🏅</span>
+                }
+                {badgeEarned && <span className="badge-check">✓</span>}
+              </div>
+              <p className="badge-title">{badge.title}</p>
+              <p className="badge-desc">{badge.description}</p>
+              {badgeEarned
+                ? <span className="badge-status earned">Earned!</span>
+                : <span className="badge-status locked">Complete quest to earn</span>
+              }
+            </div>
+          )}
         </div>
       </div>
 
-      <footer className="footer">
-        <div className="container">
-          <p>&copy; 2026 Makers Innovation Quest. Keep exploring and making an impact!</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

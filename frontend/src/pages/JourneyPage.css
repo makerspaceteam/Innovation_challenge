@@ -1,429 +1,513 @@
+/* ── Journey Page ── */
 .journey-page {
   min-height: 100vh;
+  background: #f8fafc;
 }
 
-/* Navigation */
-.navbar {
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #0051ba;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.logo:hover {
-  color: #003d7a;
-}
-
-.logo-icon {
-  font-size: 1.8rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.nav-links a:hover {
-  color: #0051ba;
-}
-
-/* Header */
 .journey-header {
-  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
-  padding: 40px 20px;
+  background: linear-gradient(135deg, #0051ba 0%, #003d8f 100%);
+  color: white;
+  padding: 48px 0 36px;
   text-align: center;
 }
 
 .journey-header h1 {
-  font-size: 2.5rem;
-  color: #001a4d;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px;
 }
 
 .journey-header p {
-  font-size: 1.2rem;
-  color: #0051ba;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin: 0;
 }
 
-/* Progress Section */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Progress ── */
 .progress-section {
-  padding: 40px 20px;
-  background: white;
-}
-
-.progress-info h2 {
-  color: #001a4d;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-}
-
-.progress-bar-container {
-  background: #e5e7eb;
-  height: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 10px;
+  padding: 32px 0 8px;
 }
 
 .progress-bar {
+  background: #e5e7eb;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
   background: linear-gradient(90deg, #4f46e5 0%, #0051ba 100%);
   height: 100%;
+  border-radius: 4px;
   transition: width 0.3s ease;
-  border-radius: 6px;
 }
 
-.progress-text {
-  color: #0051ba;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-/* Diamond Navigation */
-.diamond-nav {
-  padding: 40px 20px;
-  background: #f9fafb;
-}
-
-.diamond-phases {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.diamond {
-  padding: 30px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.diamond:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.diamond-icon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.diamond h3 {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
-  color: #001a4d;
-}
-
-.diamond p {
+.progress-label {
+  font-size: 0.9rem;
   color: #666;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  margin: 0;
 }
 
-.diamond.discover {
-  background: #fffaeb;
-  border-left: 4px solid #fbbf24;
+/* ── Diamond Map Section ── */
+.diamond-map-section {
+  padding: 24px 0 40px;
 }
 
-.diamond.define {
-  background: #ede9fe;
-  border-left: 4px solid #a78bfa;
-}
-
-.diamond.develop {
-  background: #fce7f3;
-  border-left: 4px solid #f472b6;
-}
-
-.diamond.deliver {
-  background: #dbeafe;
-  border-left: 4px solid #3b82f6;
-}
-
-/* Phases Section */
-.phases-section {
-  padding: 40px 20px;
+.diamond-map-wrapper {
   background: white;
-}
-
-.phase-section {
-  margin-bottom: 40px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.phase-section:last-child {
-  border-bottom: none;
-}
-
-.phase-title {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  padding: 10px 15px;
-  border-radius: 6px;
-  display: inline-block;
-  color: white;
-  font-weight: 600;
-}
-
-.phase-title.discover {
-  background: #fbbf24;
-}
-
-.phase-title.define {
-  background: #a78bfa;
-}
-
-.phase-title.develop {
-  background: #f472b6;
-}
-
-.phase-title.deliver {
-  background: #3b82f6;
-}
-
-.days-dots {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.day-dot {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.3s;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 28px 24px 20px;
   position: relative;
-  border: 2px solid #ddd;
-  background: white;
-  color: #666;
+  overflow-x: auto; /* allow horizontal scroll on very small screens */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Phase labels row */
+.phase-labels {
+  position: relative;
+  height: 52px;
+  margin-bottom: 8px;
+  min-width: 320px; /* prevents labels from collapsing */
+}
+
+.phase-label-group {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.phase-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.phase-range {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+/* ── SVG container ── */
+.svg-container {
+  position: relative;
+  width: 100%;
+  min-width: 320px;
+}
+
+.journey-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Day dot hover */
+.day-dot-group {
   cursor: pointer;
-  font-size: 1.1rem;
+  transition: opacity 0.15s ease;
 }
 
-.day-dot:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.day-dot-group:hover {
+  opacity: 0.75;
 }
 
-.day-dot.completed {
-  border: none;
-  color: white;
+/* Pulse animation for current day */
+@keyframes pulseRing {
+  0%   { r: 15; opacity: 0.6; }
+  70%  { r: 22; opacity: 0; }
+  100% { r: 22; opacity: 0; }
 }
 
-.day-dot.current {
-  border: 2px solid #0051ba;
+.pulse-ring {
+  animation: pulseRing 1.8s ease-out infinite;
+}
+
+/* ── Tooltip ── */
+.day-tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
   background: white;
-  color: #0051ba;
-  font-size: 1.5rem;
-  animation: pulse 2s infinite;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  pointer-events: none;
+  z-index: 20;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin-top: -8px;
+  font-size: 12px;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(0, 81, 186, 0.7);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(0, 81, 186, 0);
-  }
+.day-tooltip strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
 }
 
-.day-dot.locked {
-  background: #f3f4f6;
-  color: #999;
-  cursor: not-allowed;
+.day-tooltip span {
+  color: #64748b;
 }
 
-.dot-number {
-  display: none;
+.tooltip-status.completed { color: #16a34a; }
+.tooltip-status.current   { color: #2563eb; }
+.tooltip-status.locked    { color: #94a3b8; }
+
+/* ── Legend ── */
+.dot-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 16px;
+  flex-wrap: wrap;
 }
 
-/* Current Quest Card */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.completed-ex {
+  background: #fbbf24;
+  border: 1.5px solid #fbbf24;
+}
+
+.current-ex {
+  background: white;
+  border: 2.5px solid #3b82f6;
+  box-sizing: border-box;
+}
+
+.locked-ex {
+  background: white;
+  border: 1.5px dashed #cbd5e1;
+  box-sizing: border-box;
+}
+
+.available-ex {
+  background: white;
+  border: 1.5px solid #a78bfa;
+  box-sizing: border-box;
+}
+
+.tooltip-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* ── Current Quest Card ── */
 .current-quest {
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+  padding: 0 0 48px;
 }
 
 .quest-card {
   background: white;
-  border-radius: 12px;
-  padding: 40px;
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 30px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 32px;
+  display: flex;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.quest-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 81, 186, 0.1);
 }
 
 .quest-mascot {
-  font-size: 100px;
-  text-align: center;
-  animation: float 3s ease-in-out infinite;
+  font-size: 3rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
+.quest-content {
+  flex: 1;
 }
 
 .quest-badge {
   display: inline-block;
-  background: #a78bfa;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
   font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
   margin-bottom: 10px;
-  font-size: 0.9rem;
 }
 
 .quest-content h2 {
-  font-size: 2rem;
-  color: #001a4d;
-  margin-bottom: 15px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px;
 }
 
 .quest-content p {
-  color: #666;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-/* Badges Section */
-.badges-section {
-  padding: 60px 20px;
-  background: white;
-}
-
-.badges-section h2 {
-  text-align: center;
-  font-size: 2rem;
-  color: #001a4d;
-  margin-bottom: 40px;
-}
-
-.badges-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.badge-item {
-  background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%);
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  border: 2px solid #a78bfa;
-}
-
-.badge-icon {
-  margin-bottom: 15px;
-  display: block;
-}
-
-.badge-item h3 {
-  color: #001a4d;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-
-.badge-item p {
-  color: #0051ba;
-  font-weight: 600;
+  color: #64748b;
   font-size: 0.95rem;
-  margin-bottom: 10px;
+  margin: 0 0 18px;
+  line-height: 1.6;
 }
 
-.badge-item small {
-  display: block;
-  color: #666;
-  font-size: 0.85rem;
-  line-height: 1.5;
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
 }
 
-/* Footer */
-.footer {
-  background: #1f2937;
+.btn-primary {
+  background: #0051ba;
   color: white;
-  padding: 30px 20px;
-  text-align: center;
 }
 
-/* Responsive */
+.btn-primary:hover {
+  background: #003d8f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 81, 186, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* ── Loading ── */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-size: 1rem;
+  color: #64748b;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* ── Tablet (≤768px) ── */
 @media (max-width: 768px) {
+  .journey-header {
+    padding: 36px 0 28px;
+  }
+
   .journey-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+  }
+
+  .journey-header p {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .progress-section {
+    padding: 24px 0 8px;
+  }
+
+  .diamond-map-section {
+    padding: 16px 0 32px;
+  }
+
+  .diamond-map-wrapper {
+    padding: 20px 16px 16px;
+    border-radius: 12px;
+  }
+
+  .phase-labels {
+    height: 48px;
+  }
+
+  .phase-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .phase-range {
+    font-size: 9px;
+  }
+
+  .dot-legend {
+    gap: 16px;
+  }
+
+  .legend-item {
+    font-size: 11px;
   }
 
   .quest-card {
-    grid-template-columns: 1fr;
-    padding: 25px;
+    padding: 24px;
+    gap: 16px;
   }
 
   .quest-mascot {
-    font-size: 60px;
+    font-size: 2.5rem;
   }
 
   .quest-content h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
-  .days-dots {
-    gap: 8px;
+  .quest-content p {
+    font-size: 0.875rem;
   }
 
-  .day-dot {
-    width: 40px;
-    height: 40px;
-    font-size: 0.9rem;
+  .btn {
+    padding: 9px 18px;
+    font-size: 13px;
+  }
+}
+
+/* ── Mobile (≤600px) ── */
+@media (max-width: 600px) {
+  .journey-header {
+    padding: 28px 0 22px;
   }
 
-  .nav-links {
-    gap: 1rem;
-    font-size: 0.9rem;
+  .journey-header h1 {
+    font-size: 1.4rem;
   }
 
-  .diamond-phases,
-  .badges-grid {
-    grid-template-columns: 1fr;
+  .phase-labels {
+    height: 44px;
+  }
+
+  .phase-badge {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+
+  .phase-range {
+    font-size: 9px;
+  }
+
+  .quest-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .quest-mascot {
+    font-size: 2rem;
+  }
+
+  .quest-content h2 {
+    font-size: 1.1rem;
+  }
+
+  .quest-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .dot-legend {
+    gap: 12px;
+  }
+
+  .legend-item {
+    font-size: 10px;
+  }
+
+  .current-quest {
+    padding: 0 0 32px;
+  }
+
+  /* Tooltip: keep it from clipping off screen edge */
+  .day-tooltip {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .day-tooltip strong {
+    font-size: 12px;
+  }
+}
+
+/* ── Small Mobile (≤380px) ── */
+@media (max-width: 380px) {
+  .journey-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .journey-header p {
+    font-size: 0.8rem;
+  }
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .diamond-map-wrapper {
+    padding: 14px 10px 12px;
+    border-radius: 10px;
+  }
+
+  .quest-card {
+    padding: 16px;
+  }
+
+  .quest-content h2 {
+    font-size: 1rem;
+  }
+
+  .quest-content p {
+    font-size: 0.82rem;
+    margin-bottom: 14px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .dot-legend {
+    gap: 10px;
+  }
+
+  .phase-badge {
+    font-size: 8px;
+    padding: 2px 5px;
   }
 }
