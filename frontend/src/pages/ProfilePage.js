@@ -8,7 +8,7 @@ import {
   getUserAchievements,
   getSchedule
 } from '../services/api';
-//import { useUserProgress } from '../contexts/UserProgressContext';
+
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ProgressBar from '../components/ProgressBar';
@@ -22,33 +22,39 @@ const PHASES = [
 ];
 
 function ProfilePage() {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const localUser = useMemo(() => getUser(), []);
 
-  const [profile,  setProfile]  = useState(null);
-  const [stats,    setStats]    = useState(null);
-  const [badges,   setBadges]   = useState([]);
-  const [quests,   setQuests]   = useState([]);
-  const [loading,  setLoading]  = useState(true);
+  const [profile, setProfile] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [badges, setBadges] = useState([]);
+  const [quests, setQuests] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
-    if (!localUser?.user_id) { navigate('/'); return; }
+    if (!localUser?.user_id) {
+      navigate('/');
+      return;
+    }
 
     (async () => {
       try {
-        const [profileRes, statsRes, badgesRes, questsRes, secheduleRes] = await Promise.all([
+        const [profileRes, statsRes, badgesRes, questsRes, scheduleRes] = await Promise.all([
           getUserById(localUser.user_id),
           getUserStats(localUser.user_id),
           getUserAchievements(localUser.user_id),
           getQuestsWithProgress(localUser.user_id),
           getSchedule(),
         ]);
+
         if (profileRes.success) setProfile(profileRes.data);
-        if (statsRes.success)   setStats(statsRes.data);
-        if (badgesRes.success)  setBadges(badgesRes.data || []);
-        if (questsRes.success)  setQuests(questsRes.data || []);
-        if (scheduleRes.success) setSchedule(schedule.data?.schedule || []);
+        if (statsRes.success) setStats(statsRes.data);
+        if (badgesRes.success) setBadges(badgesRes.data || []);
+        if (questsRes.success) setQuests(questsRes.data || []);
+        if (scheduleRes?.success) {
+          setSchedule(scheduleRes.data?.schedule || []);
+        }
       } catch (err) {
         console.error('Profile load error:', err);
       } finally {
@@ -61,7 +67,6 @@ function ProfilePage() {
   if (!profile) return <div className="loading">Profile not found.</div>;
 
   const completedDays = stats?.total_days_completed || 0;
-  //const currentDay    = stats?.current_day || 1;
 
   const getInitials = (name) =>
     name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || '??';
@@ -73,8 +78,7 @@ function ProfilePage() {
       <Navbar />
 
       <div className="profile-container">
-
-        {/* ── Profile Card ── */}
+        {/* Profile Card */}
         <div className="profile-card">
           <div className="profile-avatar">
             {getInitials(profile.full_name)}
@@ -93,7 +97,7 @@ function ProfilePage() {
           </div>
         </div>
 
-        {/* ── Stats Row ── */}
+        {/* Stats Row */}
         <div className="stats-row">
           <div className="stat-card">
             <span className="stat-number">{completedDays}</span>
@@ -109,7 +113,7 @@ function ProfilePage() {
           </div>
         </div>
 
-        {/* ── Progress Section ── */}
+        {/* Progress Section */}
         <div className="section-card">
           <h2>Learning Progress</h2>
           <div className="progress-header">
@@ -145,7 +149,7 @@ function ProfilePage() {
           </div>
         </div>
 
-        {/* ── Badges Section ── */}
+        {/* Badges Section */}
         <div className="section-card">
           <h2>Badges Earned</h2>
           {badges.length === 0 ? (
@@ -158,14 +162,15 @@ function ProfilePage() {
               {badges.map((badge, i) => (
                 <div className="badge-card" key={i}>
                   <div className="badge-icon-wrap">
-                    {badge.icon_url
-                      ? <img
-                          src={badge.icon_url.replace('/upload/', '/upload/w_120,h_120,c_fit/')}
-                          alt={badge.title}
-                          className="badge-img"
-                        />
-                      : <span className="badge-emoji">🏅</span>
-                    }
+                    {badge.icon_url ? (
+                      <img
+                        src={badge.icon_url.replace('/upload/', '/upload/w_120,h_120,c_fit/')}
+                        alt={badge.title}
+                        className="badge-img"
+                      />
+                    ) : (
+                      <span className="badge-emoji">🏅</span>
+                    )}
                   </div>
                   <p className="badge-name">{badge.title}</p>
                   <p className="badge-day">Day {badge.day_number}</p>
@@ -175,7 +180,7 @@ function ProfilePage() {
           )}
         </div>
 
-        {/* ── Quest History ── */}
+        {/* Quest History */}
         <div className="section-card">
           <h2>Quest History</h2>
           <div className="quest-list">
@@ -190,7 +195,6 @@ function ProfilePage() {
                   <div
                     className={`quest-row ${q.completed ? 'completed' : 'pending'}`}
                     key={q.day}
-                    //onClick={() => navigate(`/quest/day/${q.day}`)}
                   >
                     <span
                       className="quest-day-badge"
@@ -208,7 +212,6 @@ function ProfilePage() {
             )}
           </div>
         </div>
-
       </div>
 
       <Footer />
