@@ -1,13 +1,7 @@
-/* Make sure content sits above canvas */
-.hero .container,
-.hero section,
-.hero .waves-container {
-  position: relative;
-  z-index: 2;
-}
+/* ── Hero / Ocean Background ── */
 .hero {
   position: relative;
-  overflow: visible;   /* ← change from hidden so canvas isn't clipped */
+  overflow: hidden;
   background: linear-gradient(180deg,
     #87ceeb 0%,
     #00bfff 28%,
@@ -17,7 +11,7 @@
   padding: 0 20px 80px;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;  /* ← change from center so content stacks */
+  flex-direction: column;
 }
 
 #bubble-canvas {
@@ -26,10 +20,8 @@
   left: 0;
   pointer-events: none;
   z-index: 0;
-  /* ❌ remove width: 100% and height: 100% — JS sets these */
 }
 
-/* Layered animated waves at the bottom */
 .waves-container {
   position: absolute;
   bottom: 0;
@@ -49,25 +41,9 @@
   animation: wave-anim linear infinite;
 }
 
-.wave1 {
-  background: #f5dfb7;        /* Warm golden sand */
-  opacity: 0.75;
-  animation-duration: 6s;
-}
-
-.wave2 {
-  background: #f3d8aa;        /* Medium sand */
-  opacity: 0.55;
-  animation-duration: 9s;
-  animation-delay: -3s;
-}
-
-.wave3 {
-  background: #dfbf87;        /* Deeper wet sand */
-  opacity: 0.40;
-  animation-duration: 12s;
-  animation-delay: -6s;
-}
+.wave1 { background: #f5dfb7; opacity: 0.75; animation-duration: 6s; }
+.wave2 { background: #f3d8aa; opacity: 0.55; animation-duration: 9s;  animation-delay: -3s; }
+.wave3 { background: #dfbf87; opacity: 0.40; animation-duration: 12s; animation-delay: -6s; }
 
 @keyframes wave-anim {
   0%   { transform: translateX(0)    scaleY(1); }
@@ -75,19 +51,25 @@
   100% { transform: translateX(0)    scaleY(1); }
 }
 
-/* Lift hero content above canvas + waves */
-.hero .container {
+/* Lift all content above canvas + waves */
+.hero .container,
+.hero section,
+.hero .waves-container {
   position: relative;
   z-index: 2;
+}
+
+.hero .container {
   width: 100%;
 }
+
 /* ── Journey Page ── */
 .journey-page {
   min-height: 100vh;
 }
 
 .journey-header {
-  color: rgb(28, 27, 27);
+  color: #ffffff;
   padding: 48px 0 36px;
   text-align: center;
 }
@@ -96,11 +78,12 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 8px;
+  text-shadow: 0 2px 8px rgba(0,0,60,0.3);
 }
 
 .journey-header p {
   font-size: 1rem;
-  opacity: 0.8;
+  color: rgba(255,255,255,0.85);
   margin: 0;
 }
 
@@ -132,7 +115,7 @@
 
 .progress-label {
   font-size: 0.9rem;
-  color: #666;
+  color: rgba(255,255,255,0.8);
   margin: 0;
 }
 
@@ -142,21 +125,21 @@
 }
 
 .diamond-map-wrapper {
-  background: rgba(255, 255, 255, 0.604);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
   border-radius: 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(255,255,255,0.4);
   padding: 28px 24px 20px;
   position: relative;
-  overflow-x: auto; /* allow horizontal scroll on very small screens */
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Phase labels row */
 .phase-labels {
   position: relative;
   height: 52px;
   margin-bottom: 8px;
-  min-width: 320px; /* prevents labels from collapsing */
+  min-width: 320px;
 }
 
 .phase-label-group {
@@ -181,7 +164,6 @@
   color: #94a3b8;
 }
 
-/* ── SVG container ── */
 .svg-container {
   position: relative;
   width: 100%;
@@ -195,26 +177,20 @@
   overflow: visible;
 }
 
-/* Day dot hover */
 .day-dot-group {
   cursor: pointer;
   transition: opacity 0.15s ease;
 }
 
-.day-dot-group:hover {
-  opacity: 0.75;
-}
+.day-dot-group:hover { opacity: 0.75; }
 
-/* Pulse animation for current day */
 @keyframes pulseRing {
   0%   { r: 15; opacity: 0.6; }
   70%  { r: 22; opacity: 0; }
   100% { r: 22; opacity: 0; }
 }
 
-.pulse-ring {
-  animation: pulseRing 1.8s ease-out infinite;
-}
+.pulse-ring { animation: pulseRing 1.8s ease-out infinite; }
 
 /* ── Tooltip ── */
 .day-tooltip {
@@ -230,21 +206,14 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   margin-top: -8px;
   font-size: 12px;
 }
 
-.day-tooltip strong {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.day-tooltip span {
-  color: #64748b;
-}
-
+.day-tooltip strong { font-size: 13px; font-weight: 600; color: #1e293b; }
+.day-tooltip span   { color: #64748b; }
+.tooltip-date       { font-size: 11px; font-weight: 600; color: #475569; }
 .tooltip-status.completed { color: #16a34a; }
 .tooltip-status.current   { color: #2563eb; }
 .tooltip-status.locked    { color: #94a3b8; }
@@ -263,7 +232,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #64748b;
+  color: #475569;
 }
 
 .legend-circle {
@@ -274,65 +243,30 @@
   flex-shrink: 0;
 }
 
-.completed-ex {
-  background: #fbbf24;
-  border: 1.5px solid #fbbf24;
-}
-
-.current-ex {
-  background: white;
-  border: 2.5px solid #3b82f6;
-  box-sizing: border-box;
-}
-
-.locked-ex {
-  background: white;
-  border: 1.5px dashed #cbd5e1;
-  box-sizing: border-box;
-}
-
-.available-ex {
-  background: white;
-  border: 1.5px solid #a78bfa;
-  box-sizing: border-box;
-}
-
-.tooltip-date {
-  font-size: 11px;
-  font-weight: 600;
-  color: #475569;
-}
+.completed-ex { background: #fbbf24; border: 1.5px solid #fbbf24; }
+.current-ex   { background: white; border: 2.5px solid #3b82f6; box-sizing: border-box; }
+.locked-ex    { background: white; border: 1.5px dashed #cbd5e1; box-sizing: border-box; }
+.available-ex { background: white; border: 1.5px solid #a78bfa; box-sizing: border-box; }
 
 /* ── Current Quest Card ── */
-.current-quest {
-  padding: 0 0 48px;
-}
+.current-quest { padding: 0 0 48px; }
 
 .quest-card {
-  background: rgba(255, 255, 255, 0.604);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
   border-radius: 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(255,255,255,0.4);
   padding: 32px;
   display: flex;
   align-items: center;
   gap: 50px;
-
   transition: box-shadow 0.2s ease;
 }
 
-.quest-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 81, 186, 0.1);
-}
+.quest-card:hover { box-shadow: 0 8px 24px rgba(0,81,186,0.2); }
 
-.quest-mascot {
-  font-size: 3rem;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.quest-content {
-  flex: 1;
-}
+.quest-mascot { font-size: 3rem; line-height: 1; flex-shrink: 0; }
+.quest-content { flex: 1; }
 
 .quest-badge {
   display: inline-block;
@@ -345,19 +279,10 @@
   margin-bottom: 10px;
 }
 
-.quest-content h2 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 8px;
-}
+.quest-content h2 { font-size: 1.4rem; font-weight: 700; color: #1e293b; margin: 0 0 8px; }
+.quest-content p  { color: #334155; font-size: 0.95rem; margin: 0 0 18px; line-height: 1.6; }
 
-.quest-content p {
-  color: #202429;
-  font-size: 0.95rem;
-  margin: 0 0 18px;
-  line-height: 1.6;
-}
+.unlock-time { color: #334155; font-size: 0.9rem; margin-bottom: 16px; }
 
 /* ── Buttons ── */
 .btn {
@@ -373,21 +298,12 @@
   border: none;
 }
 
-.btn-primary {
-  background: #0051ba;
-  color: white;
-}
+.btn-primary { background: #0051ba; color: white; }
+.btn-primary:hover { background: #003d8f; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,81,186,0.35); }
+.btn-primary:active { transform: translateY(1px); box-shadow: none; }
 
-.btn-primary:hover {
-  background: #003d8f;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 81, 186, 0.35);
-}
-
-.btn-primary:active {
-  transform: translateY(1px);
-  box-shadow: none;
-}
+.btn-secondary { background: rgba(255,255,255,0.2); color: #1e293b; border: 1px solid rgba(255,255,255,0.4); }
+.btn-secondary:hover { background: rgba(255,255,255,0.35); }
 
 /* ── Loading ── */
 .loading {
@@ -399,197 +315,74 @@
   color: #64748b;
 }
 
+/* ── Mascot image ── */
+.mascot-image {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 
-/* ── Tablet (≤768px) ── */
 @media (max-width: 768px) {
-  .journey-header {
-    padding: 36px 0 28px;
-  }
+  .hero { padding: 0 12px 100px; }
 
-  .journey-header h1 {
-    font-size: 1.6rem;
-  }
+  .journey-header { padding: 24px 0 20px; }
+  .journey-header h1 { font-size: 1.6rem; }
+  .journey-header p  { font-size: 0.9rem; }
 
-  .journey-header p {
-    font-size: 0.9rem;
-    padding: 0 1rem;
-  }
+  .container { padding: 0 16px; }
+  .progress-section { padding: 24px 0 8px; }
+  .diamond-map-section { padding: 16px 0 32px; }
+  .diamond-map-wrapper { padding: 20px 16px 16px; border-radius: 12px; }
+  .phase-labels { height: 48px; }
+  .phase-badge  { font-size: 10px; padding: 2px 8px; }
+  .phase-range  { font-size: 9px; }
+  .dot-legend   { gap: 16px; }
+  .legend-item  { font-size: 11px; }
 
-  .container {
-    padding: 0 16px;
-  }
-
-  .progress-section {
-    padding: 24px 0 8px;
-  }
-
-  .diamond-map-section {
-    padding: 16px 0 32px;
-  }
-
-  .diamond-map-wrapper {
-    padding: 20px 16px 16px;
-    border-radius: 12px;
-  }
-
-  .phase-labels {
-    height: 48px;
-  }
-
-  .phase-badge {
-    font-size: 10px;
-    padding: 2px 8px;
-  }
-
-  .phase-range {
-    font-size: 9px;
-  }
-
-  .dot-legend {
-    gap: 16px;
-  }
-
-  .legend-item {
-    font-size: 11px;
-  }
-
-  .quest-card {
-    padding: 24px;
-    gap: 16px;
-  }
-
-  .quest-mascot {
-    font-size: 2.5rem;
-  }
-
-  .quest-content h2 {
-    font-size: 1.2rem;
-  }
-
-  .quest-content p {
-    font-size: 0.875rem;
-  }
-
-  .btn {
-    padding: 9px 18px;
-    font-size: 13px;
-  }
+  .quest-card   { padding: 24px; gap: 16px; }
+  .quest-mascot { font-size: 2.5rem; }
+  .quest-content h2 { font-size: 1.2rem; }
+  .quest-content p  { font-size: 0.875rem; }
+  .btn { padding: 9px 18px; font-size: 13px; }
+  .mascot-image { width: 80px; }
 }
 
-/* ── Mobile (≤600px) ── */
 @media (max-width: 600px) {
-  .journey-header {
-    padding: 28px 0 22px;
-  }
+  .hero { padding: 0 8px 100px; }
 
-  .journey-header h1 {
-    font-size: 1.4rem;
-  }
+  .journey-header { padding: 20px 0 16px; }
+  .journey-header h1 { font-size: 1.4rem; }
+  .phase-labels { height: 44px; }
+  .phase-badge  { font-size: 9px; padding: 2px 7px; }
 
-  .phase-labels {
-    height: 44px;
-  }
+  .waves-container { height: 80px; }
+  .wave { height: 70px; }
 
-  .phase-badge {
-    font-size: 9px;
-    padding: 2px 7px;
-  }
-
-  .phase-range {
-    font-size: 9px;
-  }
-
-  .quest-card {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    gap: 12px;
-  }
-
-  .quest-mascot {
-    font-size: 2rem;
-  }
-
-  .quest-content h2 {
-    font-size: 1.1rem;
-  }
-
-  .quest-badge {
-    font-size: 11px;
-    padding: 3px 10px;
-  }
-
-  .dot-legend {
-    gap: 12px;
-  }
-
-  .legend-item {
-    font-size: 10px;
-  }
-
-  .current-quest {
-    padding: 0 0 32px;
-  }
-
-  /* Tooltip: keep it from clipping off screen edge */
-  .day-tooltip {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-
-  .day-tooltip strong {
-    font-size: 12px;
-  }
+  .quest-card { flex-direction: column; align-items: flex-start; padding: 20px; gap: 12px; }
+  .quest-mascot { font-size: 2rem; }
+  .quest-content h2 { font-size: 1.1rem; }
+  .quest-badge { font-size: 11px; padding: 3px 10px; }
+  .dot-legend  { gap: 12px; }
+  .legend-item { font-size: 10px; }
+  .current-quest { padding: 0 0 32px; }
+  .day-tooltip { font-size: 11px; padding: 6px 10px; }
+  .day-tooltip strong { font-size: 12px; }
+  .mascot-image { width: 60px; }
 }
 
-/* ── Small Mobile (≤380px) ── */
 @media (max-width: 380px) {
-  .journey-header h1 {
-    font-size: 1.2rem;
-  }
-
-  .journey-header p {
-    font-size: 0.8rem;
-  }
-
-  .container {
-    padding: 0 12px;
-  }
-
-  .diamond-map-wrapper {
-    padding: 14px 10px 12px;
-    border-radius: 10px;
-  }
-
-  .quest-card {
-    padding: 16px;
-  }
-
-  .quest-content h2 {
-    font-size: 1rem;
-  }
-
-  .quest-content p {
-    font-size: 0.82rem;
-    margin-bottom: 14px;
-  }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
-    padding: 10px;
-    font-size: 13px;
-  }
-
-  .dot-legend {
-    gap: 10px;
-  }
-
-  .phase-badge {
-    font-size: 8px;
-    padding: 2px 5px;
-  }
+  .journey-header h1 { font-size: 1.2rem; }
+  .journey-header p  { font-size: 0.8rem; }
+  .container { padding: 0 12px; }
+  .diamond-map-wrapper { padding: 14px 10px 12px; border-radius: 10px; }
+  .quest-card { padding: 16px; }
+  .quest-content h2 { font-size: 1rem; }
+  .quest-content p  { font-size: 0.82rem; margin-bottom: 14px; }
+  .btn { width: 100%; justify-content: center; padding: 10px; font-size: 13px; }
+  .dot-legend  { gap: 10px; }
+  .phase-badge { font-size: 8px; padding: 2px 5px; }
 }
