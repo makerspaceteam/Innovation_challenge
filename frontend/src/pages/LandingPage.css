@@ -96,21 +96,21 @@
 }
 
 .wave1 {
-  background: #48cae4;
-  opacity: 0.55;
+  background: #f5dfb7;        /* Warm golden sand */
+  opacity: 0.75;
   animation-duration: 6s;
 }
 
 .wave2 {
-  background: #90e0ef;
-  opacity: 0.35;
+  background: #f3d8aa;        /* Medium sand */
+  opacity: 0.55;
   animation-duration: 9s;
   animation-delay: -3s;
 }
 
 .wave3 {
-  background: #caf0f8;
-  opacity: 0.22;
+  background: #dfbf87;        /* Deeper wet sand */
+  opacity: 0.40;
   animation-duration: 12s;
   animation-delay: -6s;
 }

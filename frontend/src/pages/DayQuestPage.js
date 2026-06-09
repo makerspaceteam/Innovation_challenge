@@ -297,10 +297,17 @@ function DayQuestPage() {
             <div className={`sidebar-card badge-card ${badgeEarned ? 'badge-earned' : 'badge-locked'}`}>
               <h3>Day Badge</h3>
               <div className="badge-icon-wrap">
-                {badge.icon_url
-                  ? <img src={badge.icon_url.replace('/upload/', '/upload/w_200,h_200,c_fit/')} alt={badge.title} className="badge-icon-img" />
-                  : <span className="badge-icon-emoji">🏅</span>
-                }
+                { badge.icon_url ? (
+                  <img
+                    src={badge.icon_url.replace('/upload/', '/upload/w_200,h_200,c_fit/')}
+                    alt={badge.title}
+                    className="badge-img"
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <span className="badge-emoji">🏅</span>
+                )}
                 {badgeEarned && <span className="badge-check">✓</span>}
               </div>
               <p className="badge-title">{badge.title}</p>

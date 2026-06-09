@@ -156,6 +156,35 @@
   transform: translateY(-1px);
 }
 
+
+.quest-link {
+  color: #0051ba;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quest-link:hover {
+  color: #003d8f;
+}
+
+.quest-link.locked {
+  color: #64748b;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.quest-link.locked:hover {
+  color: #64748b;
+}
+
+.lock-icon {
+  font-size: 1.1rem;
+}
+
 .btn-primary:active {
   transform: translateY(1px) scale(0.97);
   box-shadow: 0 0 6px rgba(168, 85, 247, 0.3);

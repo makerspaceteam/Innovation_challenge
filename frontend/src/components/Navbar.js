@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import { getUser, clearUser, saveUser, saveToken, loginUser, changePassword, getUserStats } from '../services/api';
+import { getUser, clearUser, saveUser, saveToken, loginUser, changePassword, getUserStats, getSchedule } from '../services/api';
 
 const TEMP_PW = 'cadt1234';
 
 function Navbar() {
   const [user, setUser] = useState(getUser());
-  const [currentDay, setCurrentDay] = useState(1); // ← Changed: start with 1
+  const [currentDay, setCurrentDay] = useState(1);
+  const [isDayUnlocked, setIsDayUnlocked] = useState(true); // default true
+  const [schedule, setSchedule] = useState([]);
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -19,12 +21,32 @@ function Navbar() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // Load currentDay from localStorage when user changes
+  // Load user stats + schedule
   useEffect(() => {
-    if (user) {
-      const savedStats = JSON.parse(localStorage.getItem('userStats'));
-      setCurrentDay(savedStats?.current_day || 1);
-    }
+    if (!user) return;
+
+    const loadData = async () => {
+      try {
+        // Get current day
+        const statsRes = await getUserStats(user.user_id);
+        const day = statsRes?.data?.current_day || 1;
+        setCurrentDay(day);
+        localStorage.setItem('userStats', JSON.stringify(statsRes.data));
+
+        // Get schedule to check if day is unlocked
+        const scheduleRes = await getSchedule();
+        if (scheduleRes.success) {
+          setSchedule(scheduleRes.data?.schedule || []);
+          
+          const todaySchedule = scheduleRes.data?.schedule?.find(s => s.day === day);
+          setIsDayUnlocked(todaySchedule?.unlocked ?? true);
+        }
+      } catch (err) {
+        console.error('Failed to load schedule:', err);
+      }
+    };
+
+    loadData();
   }, [user]);
 
   const resetModal = useCallback(() => {
@@ -60,10 +82,25 @@ function Navbar() {
     }
   };
 
+  const handleQuestClick = (e) => {
+    if (!user) {
+      e.preventDefault();
+      openModal();
+      return;
+    }
+
+    if (!isDayUnlocked) {
+      e.preventDefault();
+      alert(`Day ${currentDay} is not unlocked yet. Keep progressing!`);
+      // You can replace alert with a better toast later
+    }
+  };
+
   const handleLogout = () => {
     clearUser();
     setUser(null);
     setCurrentDay(1);
+    setIsDayUnlocked(true);
     navigate('/');
   };
 
@@ -136,11 +173,7 @@ function Navbar() {
   };
 
   const handleProfile = () => {
-    if (user) {
-      navigate('/profile');
-    } else {
-      navigate('/');
-    }
+    if (user) navigate('/profile');
   };
 
   return (
@@ -151,10 +184,22 @@ function Navbar() {
             <span className="logo-icon">⭐</span>
             <span>Makers Innovation Quest</span>
           </Link>
+
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/journey">Journey</Link></li>
-            <li><Link to={`/quest/day/${currentDay}`}>Quest</Link></li>
+            
+            <li>
+              <Link 
+                to={`/quest/day/${currentDay}`}
+                className={`quest-link ${!isDayUnlocked ? 'locked' : ''}`}
+                onClick={handleQuestClick}
+              >
+                Quest 
+                {!isDayUnlocked && <span className="lock-icon">🔒</span>}
+              </Link>
+            </li>
+
             <li>
               {user ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

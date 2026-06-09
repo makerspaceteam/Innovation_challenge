@@ -254,8 +254,11 @@ function JourneyPage() {
       {/* Header */}
       <section className="journey-header">
         <div className="container">
-          <h1>20-Day Design Thinking Journey</h1>
-          <p>Track your progress through each phase</p>
+          <div>
+            <h1>20-Day Design Thinking Journey</h1>
+            <p>Track your progress through each phase</p>
+          </div>
+          
         </div>
       </section>
 
@@ -457,7 +460,13 @@ function JourneyPage() {
         <section className="current-quest locked-message">
           <div className="container">
             <div className="quest-card">
-              <div className="quest-mascot">🔒</div>
+              <div className="quest-mascot">
+                <img 
+                  src="/images/sharks/shark_sleep.png"     // ← Change path if needed
+                  alt="Makers Quest Shark Mascot" 
+                  className="mascot-image"
+                />
+              </div>
               <div className="quest-content">
                 <div className="quest-badge">Day {currentDay}</div>
                 <h2>Day is Locked</h2>

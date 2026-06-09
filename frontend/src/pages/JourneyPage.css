@@ -234,7 +234,8 @@
   padding: 32px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
+
   transition: box-shadow 0.2s ease;
 }
 

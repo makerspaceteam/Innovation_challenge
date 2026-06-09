@@ -29,8 +29,8 @@ function ProfilePage() {
   const [stats, setStats] = useState(null);
   const [badges, setBadges] = useState([]);
   const [quests, setQuests] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [schedule, setSchedule] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!localUser?.user_id) {
@@ -38,7 +38,7 @@ function ProfilePage() {
       return;
     }
 
-    (async () => {
+    const loadProfile = async () => {
       try {
         const [profileRes, statsRes, badgesRes, questsRes, scheduleRes] = await Promise.all([
           getUserById(localUser.user_id),
@@ -60,7 +60,9 @@ function ProfilePage() {
       } finally {
         setLoading(false);
       }
-    })();
+    };
+
+    loadProfile();
   }, [localUser?.user_id, navigate]);
 
   if (loading) return <div className="loading">Loading profile...</div>;
@@ -87,9 +89,7 @@ function ProfilePage() {
             <h1>{profile.full_name}</h1>
             <p className="profile-email">{profile.email}</p>
             <div className="profile-meta">
-              <span className="meta-tag">
-                🎓 ID: {profile.student_id || '—'}
-              </span>
+              <span className="meta-tag">🎓 ID: {profile.student_id || '—'}</span>
               <span className="meta-tag status-tag" style={{ color: statusColor, borderColor: statusColor }}>
                 ● {profile.status || 'active'}
               </span>
