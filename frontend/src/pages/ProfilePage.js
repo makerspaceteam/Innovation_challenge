@@ -4,7 +4,6 @@ import {
   getUser,
   getUserById,
   getUserStats,
-  getUserAchievementProgress,
   getQuestsWithProgress,
   getUserAchievements,
   getSchedule
@@ -49,7 +48,7 @@ function ProfilePage() {
         if (statsRes.success)   setStats(statsRes.data);
         if (badgesRes.success)  setBadges(badgesRes.data || []);
         if (questsRes.success)  setQuests(questsRes.data || []);
-        if (secheduleRes.success) setSchedule(schedule.data.schedule || []);
+        if (scheduleRes.success) setSchedule(schedule.data?.schedule || []);
       } catch (err) {
         console.error('Profile load error:', err);
       } finally {
