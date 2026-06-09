@@ -8,8 +8,7 @@ const TEMP_PW = 'cadt1234';
 function Navbar() {
   const [user, setUser] = useState(getUser());
   const [currentDay, setCurrentDay] = useState(1);
-  const [isDayUnlocked, setIsDayUnlocked] = useState(true); // default true
-  const [schedule, setSchedule] = useState([]);
+  const [isDayUnlocked, setIsDayUnlocked] = useState(true);
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +20,7 @@ function Navbar() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // Load user stats + schedule
+  // Load current day and unlock status
   useEffect(() => {
     if (!user) return;
 
@@ -36,8 +35,6 @@ function Navbar() {
         // Get schedule to check if day is unlocked
         const scheduleRes = await getSchedule();
         if (scheduleRes.success) {
-          setSchedule(scheduleRes.data?.schedule || []);
-          
           const todaySchedule = scheduleRes.data?.schedule?.find(s => s.day === day);
           setIsDayUnlocked(todaySchedule?.unlocked ?? true);
         }
@@ -92,7 +89,6 @@ function Navbar() {
     if (!isDayUnlocked) {
       e.preventDefault();
       alert(`Day ${currentDay} is not unlocked yet. Keep progressing!`);
-      // You can replace alert with a better toast later
     }
   };
 
@@ -108,7 +104,7 @@ function Navbar() {
     const newErrors = {};
 
     if (!email || !/^[^\s@]+@student\.cadt\.edu\.kh$/i.test(email))
-      newErrors.email = 'Please enter a valid Gmail address (e.g. you@student.cadt.edu.kh)';
+      newErrors.email = 'Please enter a valid Gmail address (e.g. example@student.cadt.edu.kh)';
     if (!password)
       newErrors.password = 'Password is required';
     if (Object.keys(newErrors).length) return setErrors(newErrors);
@@ -125,7 +121,7 @@ function Navbar() {
 
       saveToken(res.token);
       saveUser(res.data);
-      setUser(res.data);   // ← This will trigger the useEffect above
+      setUser(res.data);
 
       const statsRes = await getUserStats(res.data.user_id);
       const day = statsRes?.data?.current_day || 1;
@@ -220,7 +216,7 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Login Modal - unchanged */}
+      {/* Login Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
