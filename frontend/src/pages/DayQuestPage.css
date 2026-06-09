@@ -106,7 +106,6 @@
 
 .div-des p {
   color: #333;
-  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
   gap: 24px;
   padding: 25px;
   border-radius: 12px;
@@ -577,6 +576,13 @@
   font-size: 1.1rem;
 }
 
+.description-container {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+  border-radius: 12px;
+}
+
 /* ── Footer ── */
 .footer {
   background: #1f2937;
@@ -854,27 +860,12 @@
   backdrop-filter: blur(10px);
 }
 
-.ai-guide-content {
-  flex: 1;
-}
-
-.ai-guide-content h3 {
-  margin: 0 0 8px;
-  font-size: 1.4rem;
-  color: white;
-}
-
-.ai-guide-content p {
-  margin-bottom: 18px;
-  opacity: 0.9;
-  line-height: 1.6;
-}
-
 .ai-guide-btn {
+  width: 300px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   padding: 14px 28px;
+  margin: 20px;
   border-radius: 12px;
   background: white;
   color: #0051ba;

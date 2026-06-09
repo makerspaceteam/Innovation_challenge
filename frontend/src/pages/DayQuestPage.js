@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getQuestWithUserStatus, completeDay, getUser, getBadgeForDay } from '../services/api';
+import { getQuestWithUserStatus, completeDay, getUser, getBadgeForDay, getSchedule, getUserBadges} from '../services/api';
 import { useUserProgress } from '../contexts/UserProgressContext';
 import './DayQuestPage.css';
 
@@ -10,6 +10,7 @@ import ProgressBar from '../components/ProgressBar';
 
 function DayQuestPage() {
   const { dayNumber } = useParams();
+  const [nextDaySchedule, setNextDaySchedule] = useState(null);
   const [questData, setQuestData] = useState(null);
   const [questSubmitted, setQuestSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -28,9 +29,11 @@ function DayQuestPage() {
     if (!user?.user_id) return;
     setLoading(true);
     try {
-      const [questRes, badgeRes] = await Promise.all([
+      const [questRes, badgeRes, scheduleRes, userBadgesRes] = await Promise.all([
         getQuestWithUserStatus(dayNumber, user.user_id),
-        getBadgeForDay(dayNumber)
+        getBadgeForDay(dayNumber),
+        getSchedule(),
+        getUserBadges(user.user_id),
       ]);
 
       if (questRes.success) {
@@ -42,6 +45,19 @@ function DayQuestPage() {
 
       if (badgeRes.success && badgeRes.data) {
         setBadge(badgeRes.data);
+
+        // Check if user already earned this specific badge
+        if (userBadgesRes.success && userBadgesRes.data) {
+          const alreadyEarned = userBadgesRes.data.some(
+            b => b.requirement_value === badgeRes.data.requirement_value
+          );
+          setBadgeEarned(alreadyEarned);
+        }
+      }
+      // Find next day's schedule entry — same logic as JourneyPage
+      if (scheduleRes.success) {
+        const next = scheduleRes.data.schedule.find(s => s.day === +dayNumber + 1);
+        setNextDaySchedule(next || null);
       }
     } catch (err) {
       console.error('Failed to fetch quest:', err);
@@ -57,6 +73,20 @@ function DayQuestPage() {
     }
     fetchQuest();
   }, [fetchQuest, navigate, user]);
+
+  const handleContinue = () => {
+    const nextDay = +dayNumber + 1;
+
+    if (!nextDaySchedule || !nextDaySchedule.unlocked) {
+      const msg = nextDaySchedule?.dateLabel
+        ? `Day ${nextDay} unlocks on ${nextDaySchedule.dateLabel}.`
+        : `Day ${nextDay} is not unlocked yet.`;
+      alert(msg);
+      return;
+    }
+
+    navigate(`/quest/day/${nextDay}`, { replace: true });
+  };
 
   const handleSubmit = async () => {
     if (!confirmed) {
@@ -75,7 +105,7 @@ function DayQuestPage() {
         await refreshStats(user.user_id);
 
         setTimeout(() => {
-          navigate('/journey', { replace: true });
+          navigate(`/quest/day/${dayNumber}`, { replace: true });
         }, 800);
       } else {
         alert(`Error: ${res.message}`);
@@ -120,36 +150,24 @@ function DayQuestPage() {
                 className="mascot-image"
               />
             </div>
-            <p className="quest-description">
-              {description}
-            </p>
+
+            <div className="description-container">
+              <p className="quest-description">
+                {description}
+              </p>
+              {questData?.gpt_link && (
+                
+                <a href={questData.gpt_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ai-guide-btn"
+                >
+                  🚀 Meet Your AI Guide
+                </a>
+              )}
+            </div>
           </div>
-          {questData?.gpt_link && (
-              <div className="ai-guide-card">
-                <div className="ai-guide-icon">
-                  🤖
-                </div>
-
-                <div className="ai-guide-content">
-                  <h3>Open your AIFFL guide here:</h3>
-
-                  <p>
-                    Your AI guide will help you complete today's quest,
-                    reflect on your journey, and prepare your submission.
-                  </p>
-
-                  <a
-                    href={questData.gpt_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ai-guide-btn"
-                  >
-                    🚀 Meet Your AI Guide
-                  </a>
-                </div>
-              </div>
-            )}
-
+          
           {questData.instructions && (
             <div className="quest-section">
               <h2>How to Complete This Quest</h2>
@@ -243,15 +261,21 @@ function DayQuestPage() {
                 <div className="success-icon">✨</div>
                 <h3>Great job, {user?.user_name?.split(' ')[0] || 'Student'}!</h3>
                 <p>You've completed Day {dayNumber}!</p>
-                <div className="reward-info">
-                  <span className="reward-badge">+10 Points</span>
-                </div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => navigate('/journey', { replace: true })}
-                >
-                  Continue Journey
-                </button>
+
+                {!nextDaySchedule || !nextDaySchedule.unlocked ? (
+                  <div className="locked-next-day">
+                    <span>🔒</span>
+                    <p>
+                      {nextDaySchedule?.dateLabel
+                        ? `Day ${+dayNumber + 1} unlocks on ${nextDaySchedule.dateLabel}.`
+                        : `Day ${+dayNumber + 1} is not unlocked yet.`}
+                    </p>
+                  </div>
+                ) : (
+                  <button className="btn btn-primary" onClick={handleContinue}>
+                    Continue Journey
+                  </button>
+                )}
               </div>
             )}
           </div>

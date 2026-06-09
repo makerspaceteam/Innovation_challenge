@@ -53,8 +53,9 @@ const questsData = {
       By the end, you’ll write your own “innovation is…” reflection and identify one everyday challenge worth noticing.
 
       Daily unlock password:
-      -> Begin Journeys`,
-    gpt_link: '',
+      -> Begin Journeys
+    `,
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/r/PmMQRLDAwX' 
   },
   3:  { 
@@ -73,8 +74,8 @@ const questsData = {
 
       Daily unlock password:
       -> Practice Empathy
-      `,
-    gpt_link: '',
+    `,
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQUpIRVFJM0FYMVJLSEUwRjZFUEM1WExXUC4u' 
   },
   4:  { 
@@ -82,39 +83,39 @@ const questsData = {
     title: 'Listen Actively',        
     phase: 'Discover', 
     description: 'Practice active listening.',
-    gpt_link: '',
-    submit_link: '' 
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNDM1UkxFSTJERExCVk5ZSk8wNEtMQllUQi4u' 
   },
   5:  { 
     day: 5,  
     title: 'Synthesis',              
     phase: 'Discover', 
     description: 'Bring your observations together.',
-    gpt_link: '',
-    submit_link: '' 
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUM0ZYUkRHSkFUWTk2UjNMRjVBUjQ2M0lUWS4u' 
   },
   6:  { 
     day: 6,  
     title: 'Problem Framing',        
     phase: 'Define',   
     description: 'Frame the problem statement.',
-    gpt_link: '',
-    submit_link: '' 
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pURUtUMVk1RUU4Vk9JM080UFBSSVNUUFg3Sy4u' 
   },
   7:  { 
     day: 7,  
     title: 'Need Identification',    
     phase: 'Define',   
     description: 'Identify user needs.',
-    gpt_link: '',
-    submit_link: '' 
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQUE1M1MxMFJCUkVVU0I5OFpBOVFGOTIyOS4u' 
   },
   8:  { 
     day: 8,  
     title: 'Point of View Power',    
     phase: 'Define',   
     description: 'Write a point of view statement.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   9:  { 
@@ -122,7 +123,7 @@ const questsData = {
     title: 'Insight Analysis',       
     phase: 'Define',   
     description: 'Analyze your key insights.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   10: { 
@@ -130,7 +131,7 @@ const questsData = {
     title: 'Define Summary',         
     phase: 'Define',   
     description: 'Summarize your problem definition.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   11: { 
@@ -138,7 +139,7 @@ const questsData = {
     title: 'Brainstorming',          
     phase: 'Develop',  
     description: 'Generate creative ideas.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   12: { 
@@ -146,7 +147,7 @@ const questsData = {
     title: 'Ideation Techniques',    
     phase: 'Develop',  
     description: 'Learn ideation methods.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   13: { 
@@ -154,7 +155,7 @@ const questsData = {
     title: 'Solution Sketching',     
     phase: 'Develop',  
     description: 'Sketch your ideas.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   14: { 
@@ -162,7 +163,7 @@ const questsData = {
     title: 'Prototype Planning',     
     phase: 'Develop',  
     description: 'Plan your prototype.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   15: { 
@@ -170,7 +171,7 @@ const questsData = {
     title: 'Develop Review',         
     phase: 'Develop',  
     description: 'Review your ideas.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   16: { 
@@ -178,7 +179,7 @@ const questsData = {
     title: 'Build Your Solution',    
     phase: 'Deliver',  
     description: 'Start building.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   17: { 
@@ -186,7 +187,7 @@ const questsData = {
     title: 'Testing Phase',          
     phase: 'Deliver',  
     description: 'Test your solution.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   18: { 
@@ -194,7 +195,7 @@ const questsData = {
     title: 'Gather Feedback',        
     phase: 'Deliver',  
     description: 'Collect user feedback.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   19: { 
@@ -202,7 +203,7 @@ const questsData = {
     title: 'Iterate & Improve',      
     phase: 'Deliver',  
     description: 'Make improvements.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   },
   20: { 
@@ -210,7 +211,7 @@ const questsData = {
     title: 'Launch & Share',         
     phase: 'Deliver',  
     description: 'Share your solution.',
-    gpt_link: '',
+    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: '' 
   }
 };

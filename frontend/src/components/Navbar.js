@@ -135,6 +135,14 @@ function Navbar() {
     }
   };
 
+  const handleProfile = () => {
+    if (user) {
+      navigate('/profile');
+    } else {
+      navigate('/');
+    }
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -150,7 +158,7 @@ function Navbar() {
             <li>
               {user ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <button className="btn btn-primary">
+                  <button className="btn btn-primary" onClick={handleProfile}>
                     Hi, {user.user_name?.split(' ')[0]}!
                   </button>
                   <button className="btn btn-secondary" onClick={handleLogout}>

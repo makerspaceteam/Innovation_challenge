@@ -1,4 +1,5 @@
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+//const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const BASE_URL = 'http://localhost:5000/api';
 
 // ─── TOKEN HELPERS ───────────────────────────────────────────────────
 export const saveToken = (token) => localStorage.setItem('token', token);
@@ -135,11 +136,3 @@ export const getUserBadgeProgress = async (userId) => {
   return res.json();
 };
  
-export const awardBadge = async (user_id, day_number) => {
-  const res = await fetch(`${BASE_URL}/badges/award`, {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify({ user_id, day_number })
-  });
-  return res.json();
-};

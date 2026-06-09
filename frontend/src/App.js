@@ -4,6 +4,7 @@ import './App.css';
 import LandingPage from './pages/LandingPage';
 import JourneyPage from './pages/JourneyPage';
 import DayQuestPage from './pages/DayQuestPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/journey" element={<JourneyPage />} />
         <Route path="/quest/day/:dayNumber" element={<DayQuestPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );

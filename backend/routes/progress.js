@@ -131,11 +131,35 @@ router.post('/:userId/complete-day', async (req, res) => {
   // Mark day as completed
   const { error } = await supabase
     .from('user_quest_progress')
-    .upsert({ user_id: parseInt(userId), day_number: dayNumber }, { onConflict: 'user_id,day_number' });
+    .upsert(
+      { user_id: parseInt(userId), day_number: dayNumber },
+      { onConflict: 'user_id,day_number' }
+    );
 
   if (error) return res.status(500).json({ success: false, message: error.message });
 
-  // Get updated progress
+  // Auto-award badge if one exists for this day
+  const { data: achievement } = await supabase
+    .from('achievements')
+    .select('*')
+    .eq('requirement_type', 'day')
+    .eq('requirement_value', parseInt(dayNumber))
+    .single();
+
+  if (achievement) {
+    await supabase
+      .from('user_achievements')
+      .upsert(
+        {
+          user_id: parseInt(userId),
+          achievement_id: achievement.achievement_id,
+          earned_at: new Date().toISOString()
+        },
+        { onConflict: 'user_id,achievement_id' }
+      );
+  }
+
+  // Get updated progress — AFTER badge award
   const { data: progressData } = await supabase
     .from('user_quest_progress')
     .select('day_number')
@@ -144,9 +168,11 @@ router.post('/:userId/complete-day', async (req, res) => {
   const completedDays = progressData.map(row => row.day_number);
   const currentDay = Math.min(Math.max(...completedDays) + 1, 20);
 
+  // Send response ONCE at the end
   res.json({
     success: true,
     message: `Day ${dayNumber} marked as completed`,
+    badge_awarded: achievement ? achievement.title : null,
     data: {
       user_id: userId,
       full_name: user.full_name,
@@ -157,27 +183,6 @@ router.post('/:userId/complete-day', async (req, res) => {
       progress_percentage: Math.round((completedDays.length / 20) * 100)
     }
   });
-  // In your progress route or users route, after marking day complete,
-  // automatically award the badge — add this inside completeDay handler:
-
-  // After successful upsert of user_quest_progress...
-
-  // Auto-award badge if one exists for this day
-  const { data: achievement } = await supabase
-    .from('achievements')
-    .select('*')
-    .eq('requirement_type', 'day')
-    .eq('requirement_value', parseInt(day_number))
-    .single();
-
-  if (achievement) {
-    await supabase
-      .from('user_achievements')
-      .upsert(
-        { user_id: parseInt(user_id), achievement_id: achievement.achievement_id },
-        { onConflict: 'user_id,achievement_id', ignoreDuplicates: true }
-      );
-  }
 });
 
 module.exports = router;

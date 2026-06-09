@@ -12,6 +12,54 @@ function LandingPage() {
   useEffect(() => {
     const savedUser = getUser();
     if (savedUser) setUser(savedUser);
+
+    // Ocean bubble animation
+    const hero = document.querySelector('.hero');
+    const canvas = document.createElement('canvas');
+    canvas.id = 'bubble-canvas';
+    hero.prepend(canvas);
+    const ctx = canvas.getContext('2d');
+    let bubbles = [], W, H, animId;
+
+    const resize = () => {
+      W = canvas.width = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
+    };
+    const makeBubble = (startY) => ({
+      x: Math.random() * W, y: startY ?? H + 20,
+      r: 4 + Math.random() * 18, speed: 0.4 + Math.random() * 1.2,
+      drift: (Math.random() - 0.5) * 0.5, opacity: 0.15 + Math.random() * 0.35,
+      wobble: Math.random() * Math.PI * 2, wobbleSpeed: 0.02 + Math.random() * 0.03,
+    });
+
+    resize();
+    window.addEventListener('resize', resize);
+    for (let i = 0; i < 28; i++) bubbles.push(makeBubble(Math.random() * H));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      bubbles.forEach((b, i) => {
+        b.y -= b.speed; b.wobble += b.wobbleSpeed;
+        b.x += b.drift + Math.sin(b.wobble) * 0.4;
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255,255,255,${b.opacity + 0.2})`; ctx.lineWidth = 1; ctx.stroke();
+        const grd = ctx.createRadialGradient(b.x - b.r * 0.3, b.y - b.r * 0.3, b.r * 0.05, b.x, b.y, b.r);
+        grd.addColorStop(0, `rgba(255,255,255,${b.opacity * 0.9})`);
+        grd.addColorStop(1, `rgba(255,255,255,0)`);
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fillStyle = grd; ctx.fill();
+        if (b.y + b.r < 0) bubbles[i] = makeBubble();
+      });
+      if (Math.random() < 0.04 && bubbles.length < 40) bubbles.push(makeBubble());
+      animId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+      canvas.remove();
+    };
   }, []);
 
   const handleStart = () => {
@@ -27,6 +75,11 @@ function LandingPage() {
       <Navbar />
 
       <section className="hero">
+        <div className="waves-container">
+          <div className="wave wave1"></div>
+          <div className="wave wave2"></div>
+          <div className="wave wave3"></div>
+        </div>
         <div className="container">
           <div className="hero-content">
 

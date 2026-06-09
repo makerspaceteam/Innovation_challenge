@@ -60,14 +60,12 @@ router.post('/login', async (req, res) => {
     return res.status(404).json({ success: false, message: 'No account found with this email' });
   }
 
-  // Plain text comparison
   if (password !== user.password_hash) {
     return res.status(401).json({ success: false, message: 'Incorrect password' });
   }
 
   const isTempPassword = user.password_hash === TEMP_PW;
 
-  // Generate JWT token
   const token = jwt.sign(
     { user_id: user.user_id, email: user.email, role: user.role },
     process.env.JWT_SECRET,
@@ -96,7 +94,6 @@ router.put('/:userId/change-password', authenticate, async (req, res) => {
     return res.status(400).json({ success: false, message: 'Cannot reuse your temporary password' });
   }
 
-  // Store as plain text
   const { error } = await supabase
     .from('users')
     .update({ password_hash: newPassword })

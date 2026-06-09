@@ -24,11 +24,14 @@ router.get('/day/:dayNumber', async (req, res) => {
     .select('*')
     .eq('requirement_type', 'day')
     .eq('requirement_value', parseInt(dayNumber))
-    .single();
+    .maybeSingle();
 
-  if (error || !data) {
-    return res.json({ success: true, data: null }); // no badge for this day
-  }
+  console.log('Badge data:', data);
+  console.log('Badge error:', error);
+  console.log('day: ', dayNumber)
+
+  if (error) return res.status(500).json({ success: false, message: error.message });
+  if (!data) return res.json({ success: true, data: null });
 
   res.json({ success: true, data });
 });
@@ -56,7 +59,15 @@ router.get('/user/:userId', authenticate, async (req, res) => {
 
   if (error) return res.status(500).json({ success: false, message: error.message });
 
-  res.json({ success: true, data });
+  // Flatten so ProfilePage gets badge.title, badge.icon_url etc. directly
+  const flattened = data.map(row => ({
+    user_achievement_id: row.user_achievement_id,
+    earned_at: row.earned_at,
+    ...row.achievements,
+    day_number: row.achievements?.requirement_value  // convenience field for ProfilePage
+  }));
+
+  res.json({ success: true, data: flattened });
 });
 
 // ✅ POST /api/badges/award — award badge to user when they complete a day
@@ -69,12 +80,12 @@ router.post('/award', authenticate, async (req, res) => {
   }
 
   // Find badge for this day
-  const { data: achievement } = await supabase
+  const { data: achievement, error: achError } = await supabase
     .from('achievements')
     .select('*')
     .eq('requirement_type', 'day')
     .eq('requirement_value', parseInt(day_number))
-    .single();
+    .maybeSingle();
 
   // No badge for this day — that's fine
   if (!achievement) {
