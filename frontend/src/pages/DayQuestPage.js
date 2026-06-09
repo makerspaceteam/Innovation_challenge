@@ -74,6 +74,63 @@ function DayQuestPage() {
     fetchQuest();
   }, [fetchQuest, navigate, user]);
 
+  useEffect(() => {
+  if (loading) return; // ← wait until data is loaded and hero is in DOM
+
+  const existing = document.getElementById('bubble-canvas');
+  if (existing) existing.remove();
+
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'bubble-canvas';
+  hero.prepend(canvas);
+  const ctx = canvas.getContext('2d');
+  let bubbles = [], W, H, animId;
+
+  const resize = () => {
+    W = canvas.width  = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+  };
+
+  const makeBubble = (startY) => ({
+    x: Math.random() * W, y: startY ?? H + 20,
+    r: 4 + Math.random() * 18, speed: 0.4 + Math.random() * 1.2,
+    drift: (Math.random() - 0.5) * 0.5, opacity: 0.15 + Math.random() * 0.35,
+    wobble: Math.random() * Math.PI * 2, wobbleSpeed: 0.02 + Math.random() * 0.03,
+  });
+
+  resize();
+  window.addEventListener('resize', resize);
+  for (let i = 0; i < 28; i++) bubbles.push(makeBubble(Math.random() * H));
+
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    bubbles.forEach((b, i) => {
+      b.y -= b.speed; b.wobble += b.wobbleSpeed;
+      b.x += b.drift + Math.sin(b.wobble) * 0.4;
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(255,255,255,${b.opacity + 0.2})`; ctx.lineWidth = 1; ctx.stroke();
+      const grd = ctx.createRadialGradient(b.x - b.r * 0.3, b.y - b.r * 0.3, b.r * 0.05, b.x, b.y, b.r);
+      grd.addColorStop(0, `rgba(255,255,255,${b.opacity * 0.9})`);
+      grd.addColorStop(1, `rgba(255,255,255,0)`);
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      if (b.y + b.r < 0) bubbles[i] = makeBubble();
+    });
+    if (Math.random() < 0.04 && bubbles.length < 40) bubbles.push(makeBubble());
+    animId = requestAnimationFrame(draw);
+  };
+  draw();
+
+  return () => {
+    cancelAnimationFrame(animId);
+    window.removeEventListener('resize', resize);
+    canvas.remove();
+  };
+}, [loading]); // ← add loading as dependency
+
   const handleContinue = () => {
     const nextDay = +dayNumber + 1;
 
@@ -124,7 +181,6 @@ function DayQuestPage() {
   return (
     <div className="day-quest-page">
       <Navbar />
-
       <div className="breadcrumb">
         <div className="container">
           <Link to="/">Home</Link> {' > '}
@@ -134,193 +190,201 @@ function DayQuestPage() {
         </div>
       </div>
 
-      <div className="container quest-container">
-        <div className="quest-main">
-          <div className="quest-header">
-            <div className="quest-phase" data-phase={questData.phase}>{questData.phase}</div>
-            <h1>{questData.title}</h1>
-            <p className="quest-day">Day {dayNumber} of 20</p>
-          </div>
+      <section className='hero'>
+        <div className="waves-container">
+          <div className="wave wave1"></div>
+          <div className="wave wave2"></div>
+          <div className="wave wave3"></div>
+        </div>
+        <div className='container'>
+          <div className="container quest-container">
+            <div className="quest-main">
+              <div className="quest-header">
+                <div className="quest-phase" data-phase={questData.phase}>{questData.phase}</div>
+                <h1>{questData.title}</h1>
+                <p className="quest-day">Day {dayNumber} of 20</p>
+              </div>
 
-          <div className='div-des'>
-            <div className="mascot-large">
-              <img
-                src="/images/sharks/shark_teach.png"
-                alt="Makers Quest Shark Mascot"
-                className="mascot-image"
-              />
+              <div className='div-des'>
+                <div className="mascot-large">
+                  <img
+                    src="/images/sharks/shark_teach.png"
+                    alt="Makers Quest Shark Mascot"
+                    className="mascot-image"
+                  />
+                </div>
+
+                <div className="description-container">
+                  <p className="quest-description">
+                    {description}
+                  </p>
+                  {questData?.gpt_link && (
+                    
+                    <a href={questData.gpt_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ai-guide-btn"
+                    >
+                      🚀 Meet Your AI Guide
+                    </a>
+                  )}
+                </div>
+              </div>
+              
+              {questData.instructions && (
+                <div className="quest-section">
+                  <h2>How to Complete This Quest</h2>
+                  <ol className="instructions-list">
+                    {questData.instructions.map((instruction, idx) => (
+                      <li key={idx}>{instruction}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {questData.sentenceFrame && (
+                <div className="sentence-frame">
+                  <p className="frame-title">Use this sentence frame:</p>
+                  <div className="frame-box">{questData.sentenceFrame}</div>
+                </div>
+              )}
+
+              {questData.tips && (
+                <div className="tip-box">
+                  <span className="tip-icon">💡</span>
+                  <p><strong>Tip:</strong> {questData.tips}</p>
+                </div>
+              )}
+
+              <div className="quest-section">
+                <h2>Your Today's Quest</h2>
+                
+                {!questSubmitted ? (
+                  <div className="response-form">
+                    {/* Submission Link Button - from Backend */}
+                    {quest?.submit_link ? (
+                      <div className="submit-card">
+                        <div className="submit-card-icon">
+                          📝
+                        </div>
+
+                        <div className="submit-card-content">
+                          <h3>Submit Your Work</h3>
+                          <p>
+                            Complete the activity and upload your response through the submission form.
+                          </p>
+
+                          <a
+                            href={quest.submit_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="submit-form-btn"
+                          >
+                            Open Submission Form →
+                          </a>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="alert alert-info">
+                        <p>Submission link is not available yet for this day.</p>
+                      </div>
+                    )}
+
+                    {/* Confirmation Checkbox */}
+                    <div className="confirmation-section mb-4">
+                      <label className="checkbox-label">
+                        <input
+                          type="checkbox"
+                          checked={confirmed}
+                          onChange={(e) => setConfirmed(e.target.checked)}
+                        />
+                        <span>
+                          I have completed and submitted my work on the form above
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="form-buttons">
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-lg"
+                        disabled={!confirmed || submitting || !quest?.submit_link}
+                        onClick={handleSubmit}
+                      >
+                        {submitting ? 'Marking as Completed...' : 'Mark Day as Completed'}
+                      </button>
+                      
+                      <Link to="/journey" className="btn btn-secondary">
+                        Cancel
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="success-message">
+                    <div className="success-icon">✨</div>
+                    <h3>Great job, {user?.user_name?.split(' ')[0] || 'Student'}!</h3>
+                    <p>You've completed Day {dayNumber}!</p>
+
+                    {!nextDaySchedule || !nextDaySchedule.unlocked ? (
+                      <div className="locked-next-day">
+                        <span>🔒</span>
+                        <p>
+                          {nextDaySchedule?.dateLabel
+                            ? `Day ${+dayNumber + 1} unlocks on ${nextDaySchedule.dateLabel}.`
+                            : `Day ${+dayNumber + 1} is not unlocked yet.`}
+                        </p>
+                      </div>
+                    ) : (
+                      <button className="btn btn-primary" onClick={handleContinue}>
+                        Continue Journey
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="description-container">
-              <p className="quest-description">
-                {description}
-              </p>
-              {questData?.gpt_link && (
-                
-                <a href={questData.gpt_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ai-guide-btn"
-                >
-                  🚀 Meet Your AI Guide
-                </a>
+            <div className="quest-sidebar">
+              <div className="sidebar-card progress-card">
+                <h3>Your Progress</h3>
+                <ProgressBar completed={parseInt(dayNumber)} total={20} showLabel={false} />
+              </div>
+
+              <div className="sidebar-card phase-card">
+                <h3>Current Phase</h3>
+                <div className="phase-badge" data-phase={questData.phase}>{questData.phase}</div>
+              </div>
+
+              {/* Badge Card — only shows if this day has a badge */}
+              {badge && (
+                <div className={`sidebar-card badge-card ${badgeEarned ? 'badge-earned' : 'badge-locked'}`}>
+                  <h3>Day Badge</h3>
+                  <div className="badge-icon-wrap">
+                    { badge.icon_url ? (
+                      <img
+                        src={badge.icon_url.replace('/upload/', '/upload/w_200,h_200,c_fit/')}
+                        alt={badge.title}
+                        className="badge-img"
+                        crossOrigin="anonymous"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <span className="badge-emoji">🏅</span>
+                    )}
+                    {badgeEarned && <span className="badge-check">✓</span>}
+                  </div>
+                  <p className="badge-title">{badge.title}</p>
+                  <p className="badge-desc">{badge.description}</p>
+                  {badgeEarned
+                    ? <span className="badge-status earned">Earned!</span>
+                    : <span className="badge-status locked">Complete quest to earn</span>
+                  }
+                </div>
               )}
             </div>
           </div>
-          
-          {questData.instructions && (
-            <div className="quest-section">
-              <h2>How to Complete This Quest</h2>
-              <ol className="instructions-list">
-                {questData.instructions.map((instruction, idx) => (
-                  <li key={idx}>{instruction}</li>
-                ))}
-              </ol>
-            </div>
-          )}
-
-          {questData.sentenceFrame && (
-            <div className="sentence-frame">
-              <p className="frame-title">Use this sentence frame:</p>
-              <div className="frame-box">{questData.sentenceFrame}</div>
-            </div>
-          )}
-
-          {questData.tips && (
-            <div className="tip-box">
-              <span className="tip-icon">💡</span>
-              <p><strong>Tip:</strong> {questData.tips}</p>
-            </div>
-          )}
-
-          <div className="quest-section">
-            <h2>Your Today's Quest</h2>
-            
-            {!questSubmitted ? (
-              <div className="response-form">
-                {/* Submission Link Button - from Backend */}
-                {quest?.submit_link ? (
-                  <div className="submit-card">
-                    <div className="submit-card-icon">
-                      📝
-                    </div>
-
-                    <div className="submit-card-content">
-                      <h3>Submit Your Work</h3>
-                      <p>
-                        Complete the activity and upload your response through the submission form.
-                      </p>
-
-                      <a
-                        href={quest.submit_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="submit-form-btn"
-                      >
-                        Open Submission Form →
-                      </a>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="alert alert-info">
-                    <p>Submission link is not available yet for this day.</p>
-                  </div>
-                )}
-
-                {/* Confirmation Checkbox */}
-                <div className="confirmation-section mb-4">
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={confirmed}
-                      onChange={(e) => setConfirmed(e.target.checked)}
-                    />
-                    <span>
-                      I have completed and submitted my work on the form above
-                    </span>
-                  </label>
-                </div>
-
-                <div className="form-buttons">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-lg"
-                    disabled={!confirmed || submitting || !quest?.submit_link}
-                    onClick={handleSubmit}
-                  >
-                    {submitting ? 'Marking as Completed...' : 'Mark Day as Completed'}
-                  </button>
-                  
-                  <Link to="/journey" className="btn btn-secondary">
-                    Cancel
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="success-message">
-                <div className="success-icon">✨</div>
-                <h3>Great job, {user?.user_name?.split(' ')[0] || 'Student'}!</h3>
-                <p>You've completed Day {dayNumber}!</p>
-
-                {!nextDaySchedule || !nextDaySchedule.unlocked ? (
-                  <div className="locked-next-day">
-                    <span>🔒</span>
-                    <p>
-                      {nextDaySchedule?.dateLabel
-                        ? `Day ${+dayNumber + 1} unlocks on ${nextDaySchedule.dateLabel}.`
-                        : `Day ${+dayNumber + 1} is not unlocked yet.`}
-                    </p>
-                  </div>
-                ) : (
-                  <button className="btn btn-primary" onClick={handleContinue}>
-                    Continue Journey
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
         </div>
-
-        <div className="quest-sidebar">
-          <div className="sidebar-card progress-card">
-            <h3>Your Progress</h3>
-            <ProgressBar completed={parseInt(dayNumber)} total={20} showLabel={false} />
-          </div>
-
-          <div className="sidebar-card phase-card">
-            <h3>Current Phase</h3>
-            <div className="phase-badge" data-phase={questData.phase}>{questData.phase}</div>
-          </div>
-
-          {/* Badge Card — only shows if this day has a badge */}
-          {badge && (
-            <div className={`sidebar-card badge-card ${badgeEarned ? 'badge-earned' : 'badge-locked'}`}>
-              <h3>Day Badge</h3>
-              <div className="badge-icon-wrap">
-                { badge.icon_url ? (
-                  <img
-                    src={badge.icon_url.replace('/upload/', '/upload/w_200,h_200,c_fit/')}
-                    alt={badge.title}
-                    className="badge-img"
-                    crossOrigin="anonymous"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <span className="badge-emoji">🏅</span>
-                )}
-                {badgeEarned && <span className="badge-check">✓</span>}
-              </div>
-              <p className="badge-title">{badge.title}</p>
-              <p className="badge-desc">{badge.description}</p>
-              {badgeEarned
-                ? <span className="badge-status earned">Earned!</span>
-                : <span className="badge-status locked">Complete quest to earn</span>
-              }
-            </div>
-          )}
-        </div>
-      </div>
-
+      </section>
       <Footer />
     </div>
   );

@@ -1,3 +1,86 @@
+/* Make sure content sits above canvas */
+.hero .container,
+.hero section,
+.hero .waves-container {
+  position: relative;
+  z-index: 2;
+}
+.hero {
+  position: relative;
+  overflow: visible;   /* ← change from hidden so canvas isn't clipped */
+  background: linear-gradient(180deg,
+    #87ceeb 0%,
+    #00bfff 28%,
+    #0077b6 60%,
+    #023e8a 100%
+  );
+  padding: 0 20px 80px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;  /* ← change from center so content stacks */
+}
+
+#bubble-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* ❌ remove width: 100% and height: 100% — JS sets these */
+}
+
+/* Layered animated waves at the bottom */
+.waves-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 130px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 110px;
+  border-radius: 50% 50% 0 0;
+  animation: wave-anim linear infinite;
+}
+
+.wave1 {
+  background: #f5dfb7;        /* Warm golden sand */
+  opacity: 0.75;
+  animation-duration: 6s;
+}
+
+.wave2 {
+  background: #f3d8aa;        /* Medium sand */
+  opacity: 0.55;
+  animation-duration: 9s;
+  animation-delay: -3s;
+}
+
+.wave3 {
+  background: #dfbf87;        /* Deeper wet sand */
+  opacity: 0.40;
+  animation-duration: 12s;
+  animation-delay: -6s;
+}
+
+@keyframes wave-anim {
+  0%   { transform: translateX(0)    scaleY(1); }
+  50%  { transform: translateX(-25%) scaleY(1.18); }
+  100% { transform: translateX(0)    scaleY(1); }
+}
+
+/* Lift hero content above canvas + waves */
+.hero .container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
 /* ── Day Quest Page ── */
 .day-quest-page {
   min-height: 100vh;
