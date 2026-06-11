@@ -192,11 +192,15 @@ function JourneyPage() {
 
   const handleDotEnter = (e, dp) => {
     const status = getDayStatus(dp.day);
-    const s      = getDaySchedule(dp.day);
+    const s = getDaySchedule(dp.day);
+
+    const svg = e.currentTarget.closest('svg');
+    const vb = svg.viewBox.baseVal;
 
     setTooltip({
-      screenX: e.clientX,
-      screenY: e.clientY,
+      // percentage of SVG viewBox — works at any screen size
+      xPct: (dp.x / vb.width)  * 100,
+      yPct: (dp.y / vb.height) * 100,
       day: dp.day,
       phase: dp.phase.name,
       status,
@@ -258,11 +262,11 @@ function JourneyPage() {
 
               <div className="svg-container">
                 <svg ref={svgRef} viewBox="0 0 620 290" xmlns="http://www.w3.org/2000/svg" className="journey-svg" aria-label="20-day design thinking journey map">
-                  <polygon points={`${D1.cx-D1.hw},${D1.cy} ${D1.cx},${D1.cy-D1.hh} ${D1.cx},${D1.cy+D1.hh}`} fill="#fbbf24" fillOpacity="0.15" stroke="#fbbf24" strokeWidth="1.5" strokeOpacity="0.6" />
-                  <polygon points={`${D1.cx+D1.hw},${D1.cy} ${D1.cx},${D1.cy-D1.hh} ${D1.cx},${D1.cy+D1.hh}`} fill="#a78bfa" fillOpacity="0.15" stroke="#a78bfa" strokeWidth="1.5" strokeOpacity="0.6" />
-                  <polygon points={`${D2.cx-D2.hw},${D2.cy} ${D2.cx},${D2.cy-D2.hh} ${D2.cx},${D2.cy+D2.hh}`} fill="#f472b6" fillOpacity="0.15" stroke="#f472b6" strokeWidth="1.5" strokeOpacity="0.6" />
-                  <polygon points={`${D2.cx+D2.hw},${D2.cy} ${D2.cx},${D2.cy-D2.hh} ${D2.cx},${D2.cy+D2.hh}`} fill="#3b82f6" fillOpacity="0.15" stroke="#3b82f6" strokeWidth="1.5" strokeOpacity="0.6" />
-                  <polyline points={pathPoints} fill="none" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="3 3" />
+                  <polygon points={`${D1.cx-D1.hw},${D1.cy} ${D1.cx},${D1.cy-D1.hh} ${D1.cx},${D1.cy+D1.hh}`} fill="#fbbf24" fillOpacity="0.35" stroke="#fbbf24" strokeWidth="1.5" strokeOpacity="0.6" />
+                  <polygon points={`${D1.cx+D1.hw},${D1.cy} ${D1.cx},${D1.cy-D1.hh} ${D1.cx},${D1.cy+D1.hh}`} fill="#a78bfa" fillOpacity="0.35" stroke="#a78bfa" strokeWidth="1.5" strokeOpacity="0.6" />
+                  <polygon points={`${D2.cx-D2.hw},${D2.cy} ${D2.cx},${D2.cy-D2.hh} ${D2.cx},${D2.cy+D2.hh}`} fill="#f472b6" fillOpacity="0.35" stroke="#f472b6" strokeWidth="1.5" strokeOpacity="0.6" />
+                  <polygon points={`${D2.cx+D2.hw},${D2.cy} ${D2.cx},${D2.cy-D2.hh} ${D2.cx},${D2.cy+D2.hh}`} fill="#3b82f6" fillOpacity="0.35" stroke="#3b82f6" strokeWidth="1.5" strokeOpacity="0.6" />
+                  <polyline points={pathPoints} fill="none" stroke="#ffffff" strokeWidth="1" strokeDasharray="3 3" />
 
                   {dayPositions.map((dp) => {
                     const status = getDayStatus(dp.day);
@@ -295,8 +299,18 @@ function JourneyPage() {
                   })}
                 </svg>
 
-                {/* {tooltip && (
-                  <div className="day-tooltip" style={{ left: `${(tooltip.x / 620) * 100}%`, top: `${(tooltip.y / 290) * 100 - 18}%` }}>
+                {tooltip && (
+                  <div
+                    className="day-tooltip"
+                    style={{
+                      position: 'absolute',
+                      left: `${tooltip.xPct}%`,
+                      top: `${tooltip.yPct}%`,
+                      transform: 'translate(-50%, calc(-100% - 10px))', // above the dot, centered
+                      zIndex: 9999,
+                      pointerEvents: 'none',
+                    }}
+                  >
                     <strong>Day {tooltip.day}</strong>
                     {tooltip.dateLabel && <span className="tooltip-date">{tooltip.dateLabel}</span>}
                     <span>{tooltip.phase}</span>
@@ -308,32 +322,8 @@ function JourneyPage() {
                         : '🔒 Locked'}
                     </span>
                   </div>
-                )} */}
+                )}
               </div>
-              {/* Move this OUTSIDE .diamond-map-wrapper, inside .diamond-map-section or .hero */}
-              {tooltip && (
-                <div
-                  className="day-tooltip"
-                  style={{
-                    position: 'fixed',          // fixed = always in viewport, never clipped
-                    left: tooltip.screenX,      // pass raw screen coords from the hover handler
-                    top: tooltip.screenY,
-                    transform: 'translate(-50%, calc(-100% - 12px))',
-                    zIndex: 9999,
-                  }}
-                >
-                  <strong>Day {tooltip.day}</strong>
-                  {tooltip.dateLabel && <span className="tooltip-date">{tooltip.dateLabel}</span>}
-                  <span>{tooltip.phase}</span>
-                  {tooltip.unlockMessage && <span className="tooltip-unlock">{tooltip.unlockMessage}</span>}
-                  <span className={`tooltip-status ${tooltip.status}`}>
-                    {tooltip.status === 'completed' ? '✓ Completed'
-                      : tooltip.status === 'current'   ? '● Today'
-                      : tooltip.status === 'available' ? '↩ Catch up'
-                      : '🔒 Locked'}
-                  </span>
-                </div>
-              )}
 
               <div className="dot-legend">
                 <div className="legend-item"><span className="legend-circle completed-ex" />Completed</div>

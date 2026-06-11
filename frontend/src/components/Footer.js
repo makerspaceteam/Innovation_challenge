@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Footer.css';
 
 function Footer({ message, feedbackUrl }) {
+  const navigate = useNavigate();
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -26,14 +29,31 @@ function Footer({ message, feedbackUrl }) {
         <div className="footer-section">
           <h4>Feedback</h4>
           <p>Help us improve the quest experience.</p>
-          <a
-            href={feedbackUrl || 'https://docs.google.com/forms/d/e/1FAIpQLSdwigkUleCjM4scBhwVxmbUd8GrAW7Ry4JCiOMcXq0QG2ZP2g/viewform?usp=header'}
+          
+            <a href={feedbackUrl || 'https://docs.google.com/forms/d/e/1FAIpQLSdwigkUleCjM4scBhwVxmbUd8GrAW7Ry4JCiOMcXq0QG2ZP2g/viewform?usp=header'}
             target="_blank"
             rel="noopener noreferrer"
             className="feedback-btn"
           >
             📝 Give Feedback
           </a>
+        </div>
+
+        {/* Mascot + FAQ */}
+        <div className="footer-mascot-col">
+          <div className="footer-mascot-wrap">
+            <img
+              src="/images/sharks/shark_ask.png"
+              alt="Shark Mascot"
+              className="footer-mascot-img"
+            />
+          </div>
+          <button
+            className="footer-faq-btn"
+            onClick={() => navigate('/faq')}
+          >
+            ❓ FAQ
+          </button>
         </div>
 
       </div>

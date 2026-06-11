@@ -54,10 +54,10 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg,
-    #87ceeb 0%,
-    #00bfff 28%,
-    #0077b6 60%,
-    #023e8a 100%
+    #7cf1f8 0%,
+    #37ced6 28%,
+    #00adb6 60%,
+    #006687 100%
   );
   padding: 60px 20px;
   min-height: calc(100vh - 70px);
@@ -169,7 +169,7 @@
 }
 
 .hero-text h1 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   color: #ffffff;
   margin-bottom: 10px;
   line-height: 1.2;

@@ -9,7 +9,7 @@
 :root {
   --bg-dark:        #0a0e1a;
   --bg-nav:         rgba(10, 14, 26, 0.92);
-  --accent-purple:  #a855f7;
+  --accent-tile:    #40f0ed;
   --accent-cyan:    #22d3ee;
   --accent-pink:    #ec4899;
   --text-primary:   #e2e8f0;
@@ -145,13 +145,13 @@
 
 /* Primary — purple */
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+  background: linear-gradient(135deg, var(--accent-tile), #05bf96);
   color: #fff;
   box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #b975f7, var(--accent-purple));
+  background: linear-gradient(135deg, #3db8e1, var(--accent-tile));
   box-shadow: 0 0 16px rgba(168, 85, 247, 0.45);
   transform: translateY(-1px);
 }

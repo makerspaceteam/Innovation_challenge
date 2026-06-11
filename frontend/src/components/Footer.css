@@ -113,9 +113,87 @@
   margin: 0 auto;
 }
 
+.footer-link-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.footer-link-btn:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* Mascot + FAQ col */
+.footer-mascot-col {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-mascot-wrap {
+  animation: footer-wiggle 2.5s ease-in-out infinite;
+  transform-origin: bottom center;  /* wiggle from the base, not the center */
+}
+
+@keyframes footer-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-10deg); }
+  40%       { transform: rotate(10deg); }
+  60%       { transform: rotate(-6deg); }
+  80%       { transform: rotate(6deg); }
+}
+
+.footer-mascot-img {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.footer-faq-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.footer-faq-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
   .footer-content {
     flex-direction: column;
     gap: 28px;
+  }
+
+  .footer-mascot-col {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-mascot-img {
+    width: 60px;
   }
 }

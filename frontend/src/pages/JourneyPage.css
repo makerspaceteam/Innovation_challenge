@@ -3,10 +3,10 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg,
-    #87ceeb 0%,
-    #00bfff 28%,
-    #0077b6 60%,
-    #023e8a 100%
+    #7cf1f8 0%,
+    #37ced6 28%,
+    #00adb6 60%,
+    #006687 100%
   );
   padding: 0 20px 80px;
   min-height: 100vh;
@@ -70,7 +70,7 @@
 
 .journey-header {
   color: #ffffff;
-  padding: 48px 0 36px;
+  padding: 40px 0 36px;
   text-align: center;
 }
 
@@ -89,7 +89,7 @@
 
 .container {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto; 
   padding: 0 24px;
 }
 
@@ -299,12 +299,12 @@
   border: none;
 }
 
-.btn-primary { background: #0051ba; color: white; }
-.btn-primary:hover { background: #003d8f; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,81,186,0.35); }
+.btn-primary { background: #09dde0; color: white; }
+.btn-primary:hover { background: #2ce2dc; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,81,186,0.35); }
 .btn-primary:active { transform: translateY(1px); box-shadow: none; }
 
-.btn-secondary { background: rgba(255,255,255,0.2); color: #1e293b; border: 1px solid rgba(255,255,255,0.4); }
-.btn-secondary:hover { background: rgba(255,255,255,0.35); }
+.btn-secondary { background: rgba(255, 255, 255, 0.2); color: #1e293b; border: 1px solid rgba(255,255,255,0.4); }
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.35); }
 
 /* ── Loading ── */
 .loading {
