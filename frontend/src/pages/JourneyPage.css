@@ -125,7 +125,7 @@
 }
 
 .diamond-map-wrapper {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.826);
   backdrop-filter: blur(8px);
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.4);
@@ -161,7 +161,7 @@
 
 .phase-range {
   font-size: 10px;
-  color: #94a3b8;
+  color: #000000;
 }
 
 .svg-container {
@@ -194,7 +194,8 @@
 
 /* ── Tooltip ── */
 .day-tooltip {
-  position: absolute;
+  /*position: absolute;*/
+  position: fixed;
   transform: translate(-50%, -100%);
   background: white;
   border: 1px solid #e2e8f0;
@@ -252,7 +253,7 @@
 .current-quest { padding: 0 0 48px; }
 
 .quest-card {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.826);
   backdrop-filter: blur(8px);
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.4);

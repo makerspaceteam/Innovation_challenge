@@ -193,8 +193,13 @@ function JourneyPage() {
   const handleDotEnter = (e, dp) => {
     const status = getDayStatus(dp.day);
     const s      = getDaySchedule(dp.day);
+
     setTooltip({
-      x: dp.x, y: dp.y, day: dp.day, phase: dp.phase.name, status,
+      screenX: e.clientX,
+      screenY: e.clientY,
+      day: dp.day,
+      phase: dp.phase.name,
+      status,
       dateLabel: s.dateLabel || '',
       unlockMessage: !s.unlocked && s.dateLabel ? `Unlocks on ${s.dateLabel}` : '',
     });
@@ -290,7 +295,7 @@ function JourneyPage() {
                   })}
                 </svg>
 
-                {tooltip && (
+                {/* {tooltip && (
                   <div className="day-tooltip" style={{ left: `${(tooltip.x / 620) * 100}%`, top: `${(tooltip.y / 290) * 100 - 18}%` }}>
                     <strong>Day {tooltip.day}</strong>
                     {tooltip.dateLabel && <span className="tooltip-date">{tooltip.dateLabel}</span>}
@@ -303,8 +308,32 @@ function JourneyPage() {
                         : '🔒 Locked'}
                     </span>
                   </div>
-                )}
+                )} */}
               </div>
+              {/* Move this OUTSIDE .diamond-map-wrapper, inside .diamond-map-section or .hero */}
+              {tooltip && (
+                <div
+                  className="day-tooltip"
+                  style={{
+                    position: 'fixed',          // fixed = always in viewport, never clipped
+                    left: tooltip.screenX,      // pass raw screen coords from the hover handler
+                    top: tooltip.screenY,
+                    transform: 'translate(-50%, calc(-100% - 12px))',
+                    zIndex: 9999,
+                  }}
+                >
+                  <strong>Day {tooltip.day}</strong>
+                  {tooltip.dateLabel && <span className="tooltip-date">{tooltip.dateLabel}</span>}
+                  <span>{tooltip.phase}</span>
+                  {tooltip.unlockMessage && <span className="tooltip-unlock">{tooltip.unlockMessage}</span>}
+                  <span className={`tooltip-status ${tooltip.status}`}>
+                    {tooltip.status === 'completed' ? '✓ Completed'
+                      : tooltip.status === 'current'   ? '● Today'
+                      : tooltip.status === 'available' ? '↩ Catch up'
+                      : '🔒 Locked'}
+                  </span>
+                </div>
+              )}
 
               <div className="dot-legend">
                 <div className="legend-item"><span className="legend-circle completed-ex" />Completed</div>

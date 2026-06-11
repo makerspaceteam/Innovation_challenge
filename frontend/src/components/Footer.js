@@ -39,7 +39,7 @@ function Footer({ message, feedbackUrl }) {
       </div>
 
       <div className="footer-bottom">
-        Made with by ❤️ Makerspace Team · CADT
+        Made by Makerspace Team · CADT
       </div>
     </footer>
   );

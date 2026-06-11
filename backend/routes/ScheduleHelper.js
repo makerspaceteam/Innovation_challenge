@@ -5,7 +5,7 @@
  * Must always be a Monday (the program runs Mon–Fri, 4 weeks = 20 days).
  */
 
-const PROGRAM_START_DATE = '2026-06-01'; // ← change this to test
+const PROGRAM_START_DATE = '2026-06-08'; // ← change this to test
 
 /**
  * Given a day number (1–20), returns the calendar date it falls on.
