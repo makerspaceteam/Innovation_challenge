@@ -207,11 +207,11 @@ function DayQuestPage() {
       </div>
 
       <section className="hero">
-        <div className="waves-container">
+        {/* <div className="waves-container">
           <div className="wave wave1"></div>
           <div className="wave wave2"></div>
           <div className="wave wave3"></div>
-        </div>
+        </div> */}
 
         <div className="container quest-container">
           {/* Main Content */}
