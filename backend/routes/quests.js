@@ -82,7 +82,19 @@ const questsData = {
     day: 4,  
     title: 'Listen Actively',        
     phase: 'Discover', 
-    description: 'Practice active listening.',
+    description: `Hi {user_name} — welcome to Day 4. People First.
+
+      Today, you will choose one target user group and create an empathy map showing what they do, feel, struggle with, and hope for.
+      
+      Use evidence from your observations. Mark uncertain information as “Need to learn more.”
+
+      Worksheet: [Day4_Empathy_Map_Worksheet.pptx](https://docs.google.com/presentation/d/19qSWylBk2UKysvNhEDGgaaCJ0fLDiULA/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true)
+
+      Complete the worksheet with AIFFL, submit it through the form, then return and mark Day 4 complete.
+
+      Daily unlock password:
+      -> Uncover Needs
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNDM1UkxFSTJERExCVk5ZSk8wNEtMQllUQi4u' 
   },
@@ -90,7 +102,21 @@ const questsData = {
     day: 5,  
     title: 'Synthesis',              
     phase: 'Discover', 
-    description: 'Bring your observations together.',
+    description: `Hi {user_name} — welcome to Day 5: Ask Better Questions.
+
+      Today, you will learn how to talk to real people and learn from their experiences.
+
+      Your mission is to prepare 5–7 open-ended interview questions, interview one peer or target user, and capture what you learned.
+
+      Remember: good designers do not interview people to prove their idea is right. They interview people because they are curious.
+
+      Download your Day 5 worksheet: [Day5_Interview_Worksheet.pptx](https://docs.google.com/presentation/d/1qDkKZWatHJo65yhYCDoRVjNwTlgJIIzd/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true)
+
+      AIFFL will help you improve your questions before you interview someone. After the interview, complete the worksheet with your interview notes, direct quotes, top 3 things learned, and reflection.
+
+      Daily unlock password:
+      -> Build Courage
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUM0ZYUkRHSkFUWTk2UjNMRjVBUjQ2M0lUWS4u' 
   },
@@ -116,7 +142,7 @@ const questsData = {
     phase: 'Define',   
     description: 'Write a point of view statement.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNlgzUlhCNk5KT0dZSUVOUE1HWlNVTzNaTS4u' 
   },
   9:  { 
     day: 9,  
@@ -124,7 +150,7 @@ const questsData = {
     phase: 'Define',   
     description: 'Analyze your key insights.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNFlENkxMQU5DUkRQTzczNURZSFdRU0JJVS4u' 
   },
   10: { 
     day: 10, 
