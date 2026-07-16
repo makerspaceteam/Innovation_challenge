@@ -66,8 +66,18 @@ function Navbar() {
   }, [resetModal]);
 
   useEffect(() => {
-    const handler = () => openModal();
+    const handler = () => {
+      setUser(getUser()); // session may have been cleared (e.g. expired token)
+      openModal();
+    };
     window.addEventListener('open-login-modal', handler);
+
+    // Session expired while no Navbar was mounted (page was still loading)
+    if (sessionStorage.getItem('session_expired')) {
+      sessionStorage.removeItem('session_expired');
+      handler();
+    }
+
     return () => window.removeEventListener('open-login-modal', handler);
   }, [openModal]);
 

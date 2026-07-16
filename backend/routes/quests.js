@@ -84,20 +84,14 @@ const questsData = {
     phase: 'Discover', 
     description: `Hi {user_name} — welcome to Day 4. People First.
 
-      Today, you will choose one target user group and 
-      create an empathy map showing what they do, feel, 
-      struggle with, and hope for.
-      
-      Use evidence from your observations. Mark uncertain 
-      information as “Need to learn more.”
+      Today, you will choose one target user group and create an empathy map showing what they do, feel, struggle with, and hope for.
+
+      Use evidence from your observations. Mark uncertain information as “Need to learn more.”
 
       Worksheet: Day4_Empathy_Map_Worksheet.pptx
-      https://docs.google.com/presentation/d/19qSWylBk
-      2UKysvNhEDGgaaCJ0fLDiULA/edit?usp=sharing&ouid=11
-      3586029234761052272&rtpof=true&sd=true
+      https://docs.google.com/presentation/d/19qSWylBk2UKysvNhEDGgaaCJ0fLDiULA/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
 
-      Complete the worksheet with AIFFL, submit it through the form, 
-      then return and mark Day 4 complete.
+      Complete the worksheet with AIFFL, submit it through the form, then return and mark Day 4 complete.
 
       Daily unlock password:
       -> Uncover Needs
@@ -118,8 +112,7 @@ const questsData = {
       Remember: good designers do not interview people to prove their idea is right. They interview people because they are curious.
 
       Download your Day 5 worksheet: Day5_Worksheet.pptx
-      https://docs.google.com/presentation/d/1qDkKZWatHJo65yhYCDoRVjNwTlg
-      JIIzd/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
+      https://docs.google.com/presentation/d/1qDkKZWatHJo65yhYCDoRVjNwTlgJIIzd/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
 
       AIFFL will help you improve your questions before you interview someone. After the interview, complete the worksheet with your interview notes, direct quotes, top 3 things learned, and reflection.
 

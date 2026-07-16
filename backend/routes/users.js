@@ -69,7 +69,8 @@ router.post('/login', async (req, res) => {
   const token = jwt.sign(
     { user_id: user.user_id, email: user.email, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: '7d' }
+    // Must outlast the full 20-day event so students aren't logged out mid-journey
+    { expiresIn: '30d' }
   );
 
   res.json({

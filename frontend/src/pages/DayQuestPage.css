@@ -108,10 +108,13 @@
   text-decoration: underline;
 }
 
-/* ── Quest Container ── */
-.quest-container {
+/* ── Quest Container ──
+   Scoped under .day-quest-page: other pages' global `.container`
+   rules (FAQPage 760px, JourneyPage 900px) leak into the bundle
+   and would otherwise shrink this page's layout. */
+.day-quest-page .quest-container {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: minmax(0, 1fr) 300px;
   gap: 30px;
   padding: 40px 20px;
   flex: 1;
@@ -126,6 +129,10 @@
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* Grid children default to min-width auto; without this,
+     long unbreakable content (URLs) forces the column wider
+     than 1fr and creates a page-level horizontal scrollbar */
+  min-width: 0;
 }
 
 /* ── Quest Header ── */
@@ -161,10 +168,10 @@
 /* ── Quest Description ── */
 .div-des {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 130px minmax(0, 1fr);
   align-items: center;
-  gap: 24px;
-  padding: 25px;
+  gap: 20px;
+  padding: 25px 0;
   margin-bottom: 30px;
 }
 
@@ -357,6 +364,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
+  align-self: start;
+  position: sticky;
+  top: 84px; /* below the sticky navbar */
 }
 
 .sidebar-card {
@@ -522,20 +533,25 @@
   justify-content: center;
   align-items: center;
   margin: 10px auto;
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   overflow: hidden;
 }
 
 .badge-icon-img {
-  width: 100px;
-  height: 100px;
-  max-width: 200px;
-  max-height: 200px;
+  width: 100%;
+  height: 100%;
+  max-width: 140px;
+  max-height: 140px;
   object-fit: contain;
   border-radius: 8px;
   display: block;
   margin: 0 auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.badge-earned .badge-icon-img:hover {
+  transform: scale(1.08);
 }
 
 .badge-icon-emoji {
@@ -664,6 +680,8 @@
   flex-direction: column;
   background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
   border-radius: 12px;
+  border: 1px solid #dbeafe;
+  min-width: 0;
 }
 
 /* ── Footer ── */
@@ -681,7 +699,7 @@
 
 /* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
-  .quest-container {
+  .day-quest-page .quest-container {
     grid-template-columns: 1fr;
     gap: 20px;
     padding: 30px 20px;
@@ -691,12 +709,13 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
+    position: static; /* sticky only makes sense in the two-column layout */
   }
 }
 
 /* ── Tablet (≤768px) ── */
 @media (max-width: 768px) {
-  .quest-container {
+  .day-quest-page .quest-container {
     padding: 20px 16px;
   }
 
@@ -765,7 +784,7 @@
 
 /* ── Mobile (≤480px) ── */
 @media (max-width: 480px) {
-  .quest-container {
+  .day-quest-page .quest-container {
     padding: 16px 12px;
   }
 
@@ -898,6 +917,32 @@
 
 .quest-description {
   white-space: pre-line;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.desc-link {
+  color: #0051ba;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.desc-link:hover {
+  color: #4f46e5;
+}
+
+.progress-current-day {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #e5e7eb;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.progress-current-day strong {
+  color: #0051ba;
 }
 .submit-card-content {
   flex: 1;
@@ -944,11 +989,12 @@
 }
 
 .ai-guide-btn {
-  width: 300px;
+  width: fit-content;
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   padding: 14px 28px;
-  margin: 20px;
+  margin: 0 25px 25px;
   border-radius: 12px;
   background: white;
   color: #0051ba;

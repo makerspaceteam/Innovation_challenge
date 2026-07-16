@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  getQuestWithUserStatus, 
-  completeDay, 
-  getUser, 
-  getBadgeForDay, 
-  getSchedule, 
-  getUserBadges 
+import {
+  getQuestWithUserStatus,
+  completeDay,
+  getUser,
+  getBadgeForDay,
+  getSchedule,
+  getUserBadges,
+  getUserProgress
 } from '../services/api';
 
 import './DayQuestPage.css';
@@ -14,10 +15,25 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ProgressBar from '../components/ProgressBar';
 
+// Split description text into plain text + clickable links,
+// preserving line breaks (rendered via white-space: pre-line)
+const renderDescription = (text) => {
+  if (!text) return null;
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+    /^https?:\/\//.test(part) ? (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="desc-link">
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
+};
+
 function DayQuestPage() {
   const { dayNumber } = useParams();
   const navigate = useNavigate();
-  const user = getUser();
+  const user = useMemo(() => getUser(), []);
 
   const [questData, setQuestData] = useState(null);
   const [questSubmitted, setQuestSubmitted] = useState(false);
@@ -27,6 +43,7 @@ function DayQuestPage() {
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [nextDaySchedule, setNextDaySchedule] = useState(null);
+  const [completedCount, setCompletedCount] = useState(0);
   const [error, setError] = useState(null);
 
   const quest = questData || {};
@@ -50,6 +67,12 @@ function DayQuestPage() {
         if (questRes.data.completed) setBadgeEarned(true);
       }
 
+      // Fetch user's real overall progress for the tracking bar
+      const progressRes = await getUserProgress(user.user_id);
+      if (progressRes.success && progressRes.data) {
+        setCompletedCount(progressRes.data.completed_days?.length || 0);
+      }
+
       // Fetch badge
       const badgeRes = await getBadgeForDay(dayNumber);
       if (badgeRes.success && badgeRes.data) {
@@ -61,7 +84,7 @@ function DayQuestPage() {
           const alreadyEarned = userBadgesRes.data.some(
             b => b.requirement_value === badgeRes.data.requirement_value
           );
-          setBadgeEarned(alreadyEarned);
+          setBadgeEarned(prev => prev || alreadyEarned);
         }
       }
 
@@ -175,9 +198,7 @@ function DayQuestPage() {
       if (res.success) {
         setQuestSubmitted(true);
         setBadgeEarned(true);
-        setTimeout(() => {
-          navigate(`/quest/day/${dayNumber}`, { replace: true });
-        }, 800);
+        setCompletedCount(res.data?.completed_days?.length ?? completedCount + 1);
       } else {
         alert(`Error: ${res.message}`);
       }
@@ -227,7 +248,7 @@ function DayQuestPage() {
                 <img src="/images/sharks/shark_teach.png" alt="Mascot" className="mascot-image" />
               </div>
               <div className="description-container">
-                <p className="quest-description">{description}</p>
+                <p className="quest-description">{renderDescription(description)}</p>
                 {questData.gpt_link && (
                   <a href={questData.gpt_link} target="_blank" rel="noopener noreferrer" className="ai-guide-btn">
                     🚀 Meet Your AI Guide
@@ -301,7 +322,10 @@ function DayQuestPage() {
           <div className="quest-sidebar">
             <div className="sidebar-card progress-card">
               <h3>Your Progress</h3>
-              <ProgressBar completed={parseInt(dayNumber)} total={20} showLabel={false} />
+              <ProgressBar completed={completedCount} total={20} showLabel={false} />
+              <p className="progress-current-day">
+                📍 You're viewing <strong>Day {dayNumber}</strong>
+              </p>
             </div>
 
             <div className="sidebar-card phase-card">
@@ -317,7 +341,7 @@ function DayQuestPage() {
                     <img
                       src={badge.icon_url.replace('/upload/', '/upload/w_200,h_200,c_fit/')}
                       alt={badge.title}
-                      className="badge-img"
+                      className="badge-icon-img"
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
                     />

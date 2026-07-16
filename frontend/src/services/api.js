@@ -2,7 +2,12 @@ const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 // const BASE_URL = 'http://localhost:5000/api';
 
 // ─── TOKEN HELPERS ───────────────────────────────────────────────────
-export const saveToken = (token) => localStorage.setItem('token', token);
+let sessionExpiredHandled = false;
+
+export const saveToken = (token) => {
+  sessionExpiredHandled = false; // fresh login → arm 401 handling again
+  localStorage.setItem('token', token);
+};
 export const getToken = () => localStorage.getItem('token');
 export const clearToken = () => localStorage.removeItem('token');
 
@@ -10,6 +15,22 @@ const authHeaders = () => ({
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${getToken()}`
 });
+
+// Fetch wrapper for authenticated endpoints: if the token is missing or
+// expired the backend returns 401 — clear the stale session once and
+// reopen the login modal (Navbar listens for 'open-login-modal').
+const authFetch = async (url, options = {}) => {
+  const res = await fetch(url, { ...options, headers: authHeaders() });
+  if (res.status === 401 && getUser() && !sessionExpiredHandled) {
+    sessionExpiredHandled = true;
+    clearUser();
+    // Flag survives until a Navbar is mounted — pages render without
+    // the Navbar while loading, so a bare event can be missed
+    sessionStorage.setItem('session_expired', '1');
+    window.dispatchEvent(new Event('open-login-modal'));
+  }
+  return res.json();
+};
 
 // ─── USER ───────────────────────────────────────────────────────────
 export const loginUser = async (email, password) => {
@@ -31,80 +52,60 @@ export const createOrGetUser = async (name, email) => {
 };
 
 export const changePassword = async (userId, newPassword) => {
-  const res = await fetch(`${BASE_URL}/users/${userId}/change-password`, {
+  return authFetch(`${BASE_URL}/users/${userId}/change-password`, {
     method: 'PUT',
-    headers: authHeaders(),
     body: JSON.stringify({ newPassword })
   });
-  return res.json();
 };
 
 export const getUserById = async (userId) => {
-  const res = await fetch(`${BASE_URL}/users/${userId}`, {
-    headers: authHeaders()
-  });
-  return res.json();
+  return authFetch(`${BASE_URL}/users/${userId}`);
 };
 
 export const getUserStats = async (userId) => {
-  const res = await fetch(`${BASE_URL}/users/${userId}/stats`, {
-    headers: authHeaders()
-  });
-  return res.json();
+  return authFetch(`${BASE_URL}/users/${userId}/stats`);
 };
 
 // ─── PROGRESS ───────────────────────────────────────────────────────
 export const getUserProgress = async (userId) => {
-  const res = await fetch(`${BASE_URL}/progress/${userId}`, {
-    headers: authHeaders()
-  });
-  return res.json();
+  return authFetch(`${BASE_URL}/progress/${userId}`);
 };
 
 export const completeDay = async (userId, dayNumber) => {
-  const res = await fetch(`${BASE_URL}/progress/${userId}/complete-day`, {
+  return authFetch(`${BASE_URL}/progress/${userId}/complete-day`, {
     method: 'POST',
-    headers: authHeaders(),
     body: JSON.stringify({ dayNumber })
   });
-  return res.json();
 };
 
 // ─── QUESTS ─────────────────────────────────────────────────────────
 export const getAllQuests = async () => {
-  const res = await fetch(`${BASE_URL}/quests`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/quests`);
 };
 
 export const getQuestByDay = async (dayNumber) => {
-  const res = await fetch(`${BASE_URL}/quests/day/${dayNumber}`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/quests/day/${dayNumber}`);
 };
 
 export const getQuestsWithProgress = async (userId) => {
-  const res = await fetch(`${BASE_URL}/quests/user/${userId}`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/quests/user/${userId}`);
 };
 
 export const getQuestWithUserStatus = async (dayNumber, userId) => {
-  const res = await fetch(`${BASE_URL}/quests/day/${dayNumber}/user/${userId}`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/quests/day/${dayNumber}/user/${userId}`);
 };
 
 export const getSchedule = async () => {
-  const res = await fetch(`${BASE_URL}/quests/schedule`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/quests/schedule`);
 };
 
 // ─── ACHIEVEMENTS ────────────────────────────────────────────────────
 export const getUserAchievements = async (userId) => {
-  const res = await fetch(`${BASE_URL}/badges/user/${userId}`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/badges/user/${userId}`);
 };
 
 export const getUserAchievementProgress = async (userId) => {
-  const res = await fetch(`${BASE_URL}/badges/user/${userId}/progress`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/badges/user/${userId}/progress`);
 };
 
 // ─── USER HELPERS ────────────────────────────────────────────────────
@@ -117,22 +118,19 @@ export const clearUser = () => {
 
 // ─── BADGES (updated) ────────────────────────────────────────────────
 export const getAllBadges = async () => {
-  const res = await fetch(`${BASE_URL}/badges`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/badges`);
 };
- 
+
 export const getBadgeForDay = async (dayNumber) => {
   const res = await fetch(`${BASE_URL}/badges/day/${dayNumber}`);
   return res.json();
 };
- 
+
 export const getUserBadges = async (userId) => {
-  const res = await fetch(`${BASE_URL}/badges/user/${userId}`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/badges/user/${userId}`);
 };
- 
+
 export const getUserBadgeProgress = async (userId) => {
-  const res = await fetch(`${BASE_URL}/badges/user/${userId}/progress`, { headers: authHeaders() });
-  return res.json();
+  return authFetch(`${BASE_URL}/badges/user/${userId}/progress`);
 };
  
