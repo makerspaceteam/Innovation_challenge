@@ -126,7 +126,22 @@ const questsData = {
     day: 6,  
     title: 'Problem Framing',        
     phase: 'Define',   
-    description: 'Frame the problem statement.',
+    description: `Hi {user_name} — welcome to Day 6: Patterns and Pain Points.
+
+      You have observed people, built empathy, and interviewed a real user. Now it is time to make sense of what you discovered.
+
+      Today, your mission is to gather your observation and interview notes, group similar findings into clusters, and identify your top 2 recurring pain points.
+
+      Remember: today is not about solving the problem yet. Today is about finding the patterns.
+
+      Download your Day 6 worksheet:
+      https://docs.google.com/presentation/d/1t7MDpiVrgVeGzMKEBNOOWCreUfkb_jwU/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
+
+      AIFFL will guide you to organize your raw notes, create insight clusters, name repeated frustrations or unmet needs, and select your top 2 pain points.
+
+      Daily unlock password:
+      -> Shape Ideas
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pURUtUMVk1RUU4Vk9JM080UFBSSVNUUFg3Sy4u' 
   },
