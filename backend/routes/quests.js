@@ -149,7 +149,20 @@ const questsData = {
     day: 7,  
     title: 'Need Identification',    
     phase: 'Define',   
-    description: 'Identify user needs.',
+    description: `Hi {user_name} — welcome to Day 7: Under the Surface.
+
+      Yesterday, you identified your recurring pain points. Today, you will choose one pain point and go deeper to understand what may be causing it.
+
+      Your mission is to use the 5 Whys or a root-cause ladder to separate surface symptoms from deeper causes. You will also explore how the problem affects people practically, emotionally, and socially.
+
+      Download your Day 7 worksheet: Day 7 Root Cause Map Worksheet
+      https://docs.google.com/presentation/d/1Pp_P4e8i1_PxEKOvFAn1Q7QpvncuN4zc/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
+      
+      AIFFL will guide you to complete your root-cause map and draft your deeper problem statement.
+
+      Daily unlock password:
+      -> Test Thoughtfully
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQUE1M1MxMFJCUkVVU0I5OFpBOVFGOTIyOS4u' 
   },
@@ -157,7 +170,28 @@ const questsData = {
     day: 8,  
     title: 'Point of View Power',    
     phase: 'Define',   
-    description: 'Write a point of view statement.',
+    description: `Hi {user_name} — welcome to Day 8: Choose a Direction.
+
+      You have observed users, built empathy, interviewed someone, found patterns, and explored root causes. Now it is time to narrow your focus.
+
+      Today, your mission is to compare possible challenge areas and choose one direction your team will continue with.
+
+      You will evaluate each option based on:
+      + Relevance — Does it connect to your users and theme?
+      + Importance — Does it matter enough to work on?
+      + Interest — Does your team care about it?
+      + Feasibility — Can your team realistically explore it during the Quest?
+
+      Remember: choosing one direction does not mean other problems are unimportant. It means your team is ready to focus and go deeper.
+
+      Download your Day 8 worksheet:  Day8_Choose_a_Direction_Worksheet.pptx
+      https://docs.google.com/presentation/d/1r8SloP4saL8PGgAGGIccrhgpLYHglErK/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
+      
+      AIFFL will help you compare your options, complete the selection matrix, choose one challenge area, and explain your reason for selection.
+
+      Daily unlock password:
+      -> Refine Possibilities
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNlgzUlhCNk5KT0dZSUVOUE1HWlNVTzNaTS4u' 
   },
@@ -165,7 +199,27 @@ const questsData = {
     day: 9,  
     title: 'Insight Analysis',       
     phase: 'Define',   
-    description: 'Analyze your key insights.',
+    description: `Hi {user_name} — welcome to Day 9: Frame the Challenge.
+
+      Yesterday, you chose one challenge area to focus on. Today, you will turn that problem into a clear and actionable design challenge.
+      
+      Your mission is to write one strong “How might we…” question that is human-centered, focused, and open enough for creative ideas.
+
+      You will also write a simple statement showing:
+      + who your user is
+      + what problem they experience
+      + what change you hope to support
+
+      Remember: a good How Might We question should not already contain the solution. It should open the door to many possible ideas.
+      
+      Download your Day 9 worksheet: Day9_Frame_the_Challenge_Worksheet.pptx
+      https://docs.google.com/presentation/d/1yWwSG9JDmIl4KNAZqP4QFAHl2KqSUAgB/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true
+      
+      AIFFL will help you review your chosen challenge, rewrite weak statements, draft several How Might We questions, and select your final one.
+      
+      Daily unlock password:
+      -> Reflect Deeply
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNFlENkxMQU5DUkRQTzczNURZSFdRU0JJVS4u' 
   },
@@ -173,9 +227,29 @@ const questsData = {
     day: 10, 
     title: 'Define Summary',         
     phase: 'Define',   
-    description: 'Summarize your problem definition.',
+    description: `Hi {user_name} — welcome to Day 10: Define the Opportunity.
+
+      You have reached the end of Diamond 1: Discover and Define. Over the past days, you observed users, built empathy, asked better questions, found patterns, explored root causes, chose a direction, and framed your challenge.
+      
+      Today, your mission is to bring everything together into a clear Challenge Brief.
+      
+      You will summarize:
+      + who your user is
+      + what problem matters most
+      + why the problem matters
+      + where the opportunity lies
+      + what feedback you need from your advisor
+      
+      Download your Day 9 worksheet: Day 10 Define the Opportunity Worksheet
+      https://docs.google.com/presentation/d/1RvLKp2aYmXS012eIXofyDClF8ooFNPhx/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help you complete your Challenge Brief, User Insight Summary, Opportunity Statement, and Advisor Checkpoint.      
+      
+      Daily unlock password:
+      -> Transform Learning
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.office.com/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUOFo3MlNIMEVDQ1pQRkJMM0tFTlpFRlhRVC4u' 
   },
   11: { 
     day: 11, 
