@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const supabase = require('../supabase');
 const authenticate = require('../middleware/auth');
+const requireLecturer = require('../middleware/requireLecturer');
 
 const TEMP_PW = 'cadt1234';
 
@@ -149,6 +150,23 @@ router.put('/:userId/progress', authenticate, async (req, res) => {
   if (error) return res.status(500).json({ success: false, message: error.message });
 
   res.json({ success: true, message: `Day ${day_number} marked as completed` });
+});
+
+// ✅ PUT /users/:userId/theme — protected
+router.put('/:userId/theme', authenticate, requireLecturer, async (req, res) => {
+  const { userId } = req.params;
+  const { theme } = req.body;
+
+  const { data: updated, error } = await supabase
+    .from('users')
+    .update({ theme: theme?.trim() || null })
+    .eq('user_id', parseInt(userId))
+    .select()
+    .single();
+
+  if (error) return res.status(500).json({ success: false, message: error.message });
+
+  res.json({ success: true, message: 'Theme updated', data: updated });
 });
 
 // ✅ GET /users/:userId — protected

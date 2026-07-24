@@ -108,6 +108,18 @@ export const getUserAchievementProgress = async (userId) => {
   return authFetch(`${BASE_URL}/badges/user/${userId}/progress`);
 };
 
+// ─── DASHBOARD ──────────────────────────────────────────────────────
+export const getDashboardOverview = async () => {
+  return authFetch(`${BASE_URL}/dashboard/overview`);
+};
+
+export const updateStudentTheme = async (userId, theme) => {
+  return authFetch(`${BASE_URL}/users/${userId}/theme`, {
+    method: 'PUT',
+    body: JSON.stringify({ theme })
+  });
+};
+
 // ─── USER HELPERS ────────────────────────────────────────────────────
 export const saveUser = (user) => localStorage.setItem('user', JSON.stringify(user));
 export const getUser = () => JSON.parse(localStorage.getItem('user'));

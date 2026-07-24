@@ -113,8 +113,8 @@ function Navbar() {
   const handleLogin = async () => {
     const newErrors = {};
 
-    if (!email || !/^[^\s@]+@student\.cadt\.edu\.kh$/i.test(email))
-      newErrors.email = 'Please enter a valid Gmail address (e.g. example@student.cadt.edu.kh)';
+    if (!email || !/^[^\s@]+@(student\.)?cadt\.edu\.kh$/i.test(email))
+      newErrors.email = 'Please enter a valid CADT email address (e.g. example@student.cadt.edu.kh)';
     if (!password)
       newErrors.password = 'Password is required';
     if (Object.keys(newErrors).length) return setErrors(newErrors);
@@ -194,7 +194,8 @@ function Navbar() {
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/journey">Journey</Link></li>
-            
+            {user?.role === 'lecturer' && <li><Link to="/dashboard">Dashboard</Link></li>}
+
             <li>
               <Link 
                 to={`/quest/day/${currentDay}`}

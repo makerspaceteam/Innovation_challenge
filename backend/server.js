@@ -23,6 +23,7 @@ app.use('/api/quests', require('./routes/quests'));
 app.use('/api/submissions', require('./routes/submissions'));
 app.use('/api/progress', require('./routes/progress'));
 app.use('/api/badges', require('./routes/badges'));
+app.use('/api/dashboard', require('./routes/dashboard'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

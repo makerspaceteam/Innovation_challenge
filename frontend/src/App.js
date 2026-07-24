@@ -6,6 +6,7 @@ import JourneyPage from './pages/JourneyPage';
 import DayQuestPage from './pages/DayQuestPage';
 import ProfilePage from './pages/ProfilePage';
 import FAQPage from './pages/FAQPage';
+import LectureDashboardPage from './pages/LectureDashboardPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/quest/day/:dayNumber" element={<DayQuestPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/faq" element={<FAQPage />} />
+        <Route path="/dashboard" element={<LectureDashboardPage />} />
       </Routes>
     </Router>
   );
