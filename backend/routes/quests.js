@@ -240,7 +240,7 @@ const questsData = {
       + where the opportunity lies
       + what feedback you need from your advisor
       
-      Download your Day 9 worksheet: Day 10 Define the Opportunity Worksheet
+      Download your Day 10 worksheet: Day 10 Define the Opportunity Worksheet
       https://docs.google.com/presentation/d/1RvLKp2aYmXS012eIXofyDClF8ooFNPhx/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
       
       AIFFL will help you complete your Challenge Brief, User Insight Summary, Opportunity Statement, and Advisor Checkpoint.      
@@ -255,25 +255,94 @@ const questsData = {
     day: 11, 
     title: 'Brainstorming',          
     phase: 'Develop',  
-    description: 'Generate creative ideas.',
+    description: `Hi {user_name} — welcome to Day 11: Idea Explosion.
+
+      You have completed Diamond 1 and defined your opportunity. Now we are entering Diamond 2: Develop, where your team starts creating possibilities.      
+      
+      Today, your mission is to generate 20+ ideas before judging or choosing. Some ideas can be simple, some can be strange, and some can be wild. That is part of the process.      
+      
+      You will practice:
+      - rapid brainstorming
+      - wild ideas
+      - “Yes, and…” idea building
+      - remixing existing solutions
+      - quick idea sketches or notes
+
+      Remember: today is not about finding the perfect idea. Today is about opening as many doors as possible.      
+      
+      Download your Day 11 worksheet: Day 11 Idea Explosion Worksheet.pptx
+      https://docs.google.com/presentation/d/1MiIV7Sbuty_OVzZNFRCvQcFxW0hWP2rl/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will guide your team through idea rounds and help you reach at least 20 idea sketches or notes.      
+      
+      Daily unlock password:
+      -> Notice Patterns
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUMUNRQVJHVkFFTVU3MTZXTE9SS0FDUTdPMy4u' 
   },
   12: { 
     day: 12, 
     title: 'Ideation Techniques',    
     phase: 'Develop',  
-    description: 'Learn ideation methods.',
+    description: `Hi {user_name} — welcome to Day 12: Stretch the Imagination.
+
+      Yesterday, your team created many ideas. Today, you will stretch those ideas into more unusual and meaningful concept directions.      
+      
+      Your mission is to explore creative possibilities without pressure. You will ask:
+      - What if this worked like a game?
+      - What if this worked like a café?
+      - What if this worked like a mentor?
+      - What if this worked like a GPS?
+      - What if this worked like a community?
+      
+      You will also think about emotion:
+      - What would make this feel safe?
+      - What would make this feel motivating?
+      - What would make this feel exciting?
+      - What would make this feel calm, trusted, or empowering?
+
+
+      By the end of today, your team will create 3 unusual concept directions connected to your user need and HMW question.      
+      
+      Download your Day 12 worksheet:  Day12_Stretch_the_Imagination_Worksheet.pptx
+      https://docs.google.com/presentation/d/1VtodGPODXd2Vbuk02MB2-6H67kg45QqU/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team use analogy thinking, emotion-based ideation, and future-state thinking to stretch your ideas.      
+      
+      Daily unlock password:
+      -> Ask Better
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQVdNQ05QT1hQMDEzVDA2T0NXSEE2WU0xMy4u' 
   },
   13: { 
     day: 13, 
     title: 'Solution Sketching',     
     phase: 'Develop',  
-    description: 'Sketch your ideas.',
+    description: `Hi {user_name} — welcome to Day 13: Select and Strengthen.
+
+      Yesterday, your team created 3 unusual concept directions. Today, you will compare them and choose your top 1–2 promising concepts to develop further.      
+      
+      Your mission is to look at each concept carefully and ask:
+      - Is it useful for the user?
+      - Is it original or interesting?
+      - Is it feasible for our team to prototype?
+      - Are we excited enough to develop it further?
+      
+      You may also combine parts of different concepts if that makes your idea stronger.
+      
+      Remember: your selected concept is not final forever. It is the concept your team will prototype, test, and learn from next.
+
+      Download your Day 13 worksheet:  Day 13 Select and Strengthen Worksheet.pptx
+      https://docs.google.com/presentation/d/14EklGEDu0wsvmoPdW6DnfuzIsUJdPjRC/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=truehttps://docs.google.com/presentation/d/1VtodGPODXd2Vbuk02MB2-6H67kg45QqU/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team vote, score, compare, combine, and strengthen your concepts.      
+      Daily unlock password:
+      -> Listen Closely
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUMjBBRjU3RkJCT0VKOExIV0RNT1RPWko3QS4u' 
   },
   14: { 
     day: 14, 
@@ -281,7 +350,7 @@ const questsData = {
     phase: 'Develop',  
     description: 'Plan your prototype.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUMFU4OFo4RkVTT0pQWTMzQTJaWFo2N1dXMi4u' 
   },
   15: { 
     day: 15, 
@@ -289,7 +358,7 @@ const questsData = {
     phase: 'Develop',  
     description: 'Review your ideas.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQ1dCUjU0WkswU0VQNU0xOTVIVjdGUzlTUy4u' 
   },
   16: { 
     day: 16, 
@@ -297,7 +366,7 @@ const questsData = {
     phase: 'Deliver',  
     description: 'Start building.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUN0FKSzhSMUtLNkRHOVJPWkoxRTQxTjFVVi4u' 
   },
   17: { 
     day: 17, 
@@ -305,7 +374,7 @@ const questsData = {
     phase: 'Deliver',  
     description: 'Test your solution.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUME5DNFNJWEIwU1NUUDJaWFk2N1FWMjBYRS4u' 
   },
   18: { 
     day: 18, 
@@ -313,7 +382,7 @@ const questsData = {
     phase: 'Deliver',  
     description: 'Collect user feedback.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNzI5WEY5UVpPVzdDOVQ2OUxETVVIRUZJVS4u' 
   },
   19: { 
     day: 19, 
@@ -321,7 +390,7 @@ const questsData = {
     phase: 'Deliver',  
     description: 'Make improvements.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQkFIQUhKTDM0OVZVSjczRFBVTUhSSVdGUi4u' 
   },
   20: { 
     day: 20, 
@@ -329,7 +398,7 @@ const questsData = {
     phase: 'Deliver',  
     description: 'Share your solution.',
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: '' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNzE0V0M3RTU4QlRGMjVTTTZSRERNNkRNTy4u' 
   }
 };
 
