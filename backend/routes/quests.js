@@ -348,7 +348,30 @@ const questsData = {
     day: 14, 
     title: 'Prototype Planning',     
     phase: 'Develop',  
-    description: 'Plan your prototype.',
+    description: `Hi {user_name} — welcome to Day 14: Build the Experience.
+
+      Yesterday, your team selected and strengthened your top concept. Today, you will make that concept more concrete by showing how a user would experience it step by step.      
+      
+      Your mission is to map the user journey:
+      - What happens before the user uses your concept?
+      - What problem or trigger appears?
+      - What does the user do first?
+      - What support, feedback, or interaction happens?
+      - What changes for the user by the end?
+      
+      You will create a simple concept storyboard and user journey flow.
+      
+      Remember: your storyboard does not need to be beautiful. It needs to be clear enough for someone else to understand the experience.
+
+
+      Download your Day 14 worksheet:  Day14_Build_the_Experience_Worksheet.pptx
+      https://docs.google.com/presentation/d/1NGWX5Ii0x7v5cd43QxAl4clhiH85kgvC/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team map the journey, create storyboard panels, define key features and interactions, and identify gaps to test.      
+      
+      Daily unlock password:
+      -> Define Clearly
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUMFU4OFo4RkVTT0pQWTMzQTJaWFo2N1dXMi4u' 
   },
@@ -356,7 +379,29 @@ const questsData = {
     day: 15, 
     title: 'Develop Review',         
     phase: 'Develop',  
-    description: 'Review your ideas.',
+    description: `Hi {user_name} — welcome to Day 15: Make the Value Clear.
+
+      Yesterday, your team mapped the user journey and storyboarded how your concept works. Today, you will explain why your concept matters.      
+      
+      Your mission is to answer four important questions:
+      - What problem does it solve?
+      - Who is it for?
+      - Why is it better than the current experience?
+      - What change does it create for the user?
+      
+      You will create a clear Value Proposition and Concept Summary Card, then prepare for an advisor check-in.
+      
+      Remember: a strong idea is not only creative. It should clearly help a real user in a meaningful way.
+
+      Download your Day 15 worksheet:   Day 15 Make the Value Clear Worksheet
+      https://docs.google.com/presentation/d/1I_saKTlJ-IFaX1XbCxJkol4oCnhgpitr/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team clarify your value proposition, complete your concept summary card, and prepare your advisor check-in.   
+      
+      Daily unlock password:
+      -> Imagine Boldly
+
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQ1dCUjU0WkswU0VQNU0xOTVIVjdGUzlTUy4u' 
   },
