@@ -403,7 +403,7 @@ const questsData = {
 
     `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQ1dCUjU0WkswU0VQNU0xOTVIVjdGUzlTUy4u' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUN0FKSzhSMUtLNkRHOVJPWkoxRTQxTjFVVi4u' 
   },
   16: { 
     day: 16, 
