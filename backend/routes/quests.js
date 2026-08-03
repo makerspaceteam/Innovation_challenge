@@ -400,7 +400,6 @@ const questsData = {
       
       Daily unlock password:
       -> Imagine Boldly
-
     `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
     submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUN0FKSzhSMUtLNkRHOVJPWkoxRTQxTjFVVi4u' 
@@ -409,9 +408,32 @@ const questsData = {
     day: 16, 
     title: 'Build Your Solution',    
     phase: 'Deliver',  
-    description: 'Start building.',
+    description: `Hi {user_name} — welcome to Day 16: Prototype Thinking.
+
+      Last week, your team made the value of your concept clear. Today, you will prepare to turn your idea into something people can see, touch, try, or react to.
+      
+      Your mission is to remember: a prototype does not need to be perfect. It only needs to help your team learn.
+      
+      You will choose a prototype format:
+      - paper sketch
+      - storyboard
+      - clickable wireframe
+      - roleplay / service simulation
+      - simple mockup
+      - physical model
+      
+      By the end of today, your team will create a clear Prototype Plan: what you will build, why you will build it, what you want to test, and what materials or tools you need.
+
+      Download your Day 16 worksheet:   Day16_Prototype_Thinking_Worksheet.pptx
+      https://docs.google.com/presentation/d/1-yITFjsB7-N8XLqhx5rZXRyOmy9iOoFJ/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team choose the right prototype format, define what to include and leave out, assign team roles, and prepare your testing question.
+
+      Daily unlock password:
+      -> Prototype Early
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUN0FKSzhSMUtLNkRHOVJPWkoxRTQxTjFVVi4u' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUME5DNFNJWEIwU1NUUDJaWFk2N1FWMjBYRS4u' 
   },
   17: { 
     day: 17, 
