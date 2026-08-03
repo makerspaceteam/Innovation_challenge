@@ -439,33 +439,113 @@ const questsData = {
     day: 17, 
     title: 'Testing Phase',          
     phase: 'Deliver',  
-    description: 'Test your solution.',
+    description: `Hi {user_name} — welcome to Day 17: Build the First Prototype.
+
+      Yesterday, your team planned your prototype. Today, you will turn that plan into a visible Version 1 prototype.
+      
+      Your prototype does not need to be perfect, complete, or beautiful. It only needs to be clear enough for someone to understand, react to, and give feedback.
+      
+      Your mission is to:
+      - build a low-fidelity prototype
+      - focus on the most important user interaction
+      - prepare a short explanation of how it works
+      - document what is included and what is not included yet
+      
+      You can build using paper, slides, cardboard, roleplay, simple mockups, clickable wireframes, or any tool your team can access.
+
+      Download your Day 17 worksheet: Day17_Build_the_First_Prototype_Worksheet.pptx
+      https://docs.google.com/presentation/d/1Do6e4VxrOYbYYKALCYnV7LACJwjpPFVh/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team stay focused, build simply, document your prototype, and prepare your short explanation.
+      
+      Daily unlock password:
+      -> Learn Constantly
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUME5DNFNJWEIwU1NUUDJaWFk2N1FWMjBYRS4u' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNzI5WEY5UVpPVzdDOVQ2OUxETVVIRUZJVS4u' 
   },
   18: { 
     day: 18, 
     title: 'Gather Feedback',        
     phase: 'Deliver',  
-    description: 'Collect user feedback.',
+    description: `Hi {user_name} — welcome to Day 18: Test and Learn.
+
+      Yesterday, your team built your Version 1 prototype. Today, you will test it with peers, advisors, or target users and collect feedback.
+      
+      Your mission is not to prove that your idea is perfect. Your mission is to learn.
+      
+      Ask:
+      - What is clear?
+      - What is confusing?
+      - What seems useful?
+      - What would you improve?
+      
+      Remember: when someone gives feedback, do not defend the idea too quickly. Listen, take notes, and look for patterns.
+      
+      By the end of today, your team will identify 3 key improvements for the next version of your prototype.
+
+      Download your Day 18 worksheet: Day18_Test_and_Learn_Worksheet.pptx
+      https://docs.google.com/presentation/d/1AZhxH0zPSjICKNWFuCIe3sNvhKNc1Dzy/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team prepare feedback questions, collect notes, organize what was clear/confusing/useful, and choose your 3 key improvements.
+
+      Daily unlock password:
+      -> Create Meaning
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNzI5WEY5UVpPVzdDOVQ2OUxETVVIRUZJVS4u' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQkFIQUhKTDM0OVZVSjczRFBVTUhSSVdGUi4u' 
   },
   19: { 
     day: 19, 
     title: 'Iterate & Improve',      
     phase: 'Deliver',  
-    description: 'Make improvements.',
+    description: `Hi {user_name} — welcome to Day 19: Improve and Prepare the Pitch.
+
+      Yesterday, your team tested your prototype and collected feedback. Today, you will use that feedback to improve your prototype and prepare your final project story.
+      
+      Your mission is to clearly explain:
+      - What problem are you solving?
+      - Who is your user?
+      - What insight did you discover?
+      - What is your solution?
+      - What feedback did you receive?
+      - What impact could your idea create?
+      
+      You will prepare your 3-minute pitch and complete your student project pitch deck.
+      
+      Remember: a strong pitch is not only about showing your idea. It is about helping people understand your journey from user need to solution.
+
+      Download your Day 19 worksheet: Makers_Innovation_Quest_Student_Pitch_Deck_Template
+      https://docs.google.com/presentation/d/1zRc8vlevBuCGs3alYHJ0HueD_JXUH5eH/edit?usp=sharing&ouid=113586029234761052272&rtpof=true&sd=true      
+      
+      AIFFL will help your team refine your prototype, organize your story, draft your 3-minute pitch, and prepare your 5-slide presentation.
+      
+      Daily unlock password:
+      -> Humans Centered
+    `,
     gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQkFIQUhKTDM0OVZVSjczRFBVTUhSSVdGUi4u' 
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNzE0V0M3RTU4QlRGMjVTTTZSRERNNkRNTy4u' 
   },
   20: { 
     day: 20, 
     title: 'Launch & Share',         
     phase: 'Deliver',  
-    description: 'Share your solution.',
-    gpt_link: 'https://chatgpt.com/g/g-6a1960f5ba488191b1f12023200567f8-aiffl-innovation-navigators',
-    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUNzE0V0M3RTU4QlRGMjVTTTZSRERNNkRNTy4u' 
+    description: `Hi {user_name} — welcome to Day 20: You made it to Day 20!
+
+      Congratulations on completing the Makers Innovation Quest. Over the past 20 days, you observed real problems, listened to users, found insights, generated ideas, built a prototype, tested it, improved it, and prepared your pitch.
+      
+      This is not just the end of a quest. It is proof that you can move from curiosity to action.
+      
+      Before you close your journey, please take a few minutes to reflect on your learning experience. Your feedback will help us improve the Quest for future makers.
+      
+      Take the Day 20 Learning Journey Survey here:
+      https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQTRHSTNPQlkyVkVNR0ZQV0s3OEVFOUpXQS4u
+      
+      Thank you for showing up, trying, learning, and building with courage.
+      🎉 Quest Complete
+      🦈 You are officially a Maker.
+
+    `,
   }
 };
 
