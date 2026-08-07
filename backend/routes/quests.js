@@ -546,6 +546,8 @@ const questsData = {
       🦈 You are officially a Maker.
 
     `,
+    submit_link: 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7GGUHmJTKUOuRmH6PpHG0kZVRRdxSX1IlNb3E5Tqm1pUQTRHSTNPQlkyVkVNR0ZQV0s3OEVFOUpXQS4u'
+
   }
 };
 
